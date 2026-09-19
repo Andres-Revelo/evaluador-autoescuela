@@ -3,228 +3,213 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Evaluador DGT</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f4f6f8;
+  color:#1f2937;
 }
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-  background: #f4f6f8;
-  color: #1f2937;
+header{
+  background:#173b5b;
+  color:white;
+  padding:18px;
+  text-align:center;
 }
 
-header {
-  background: #17324d;
-  color: white;
-  padding: 20px;
-  text-align: center;
+header h1{
+  margin:0;
+  font-size:25px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 28px;
+header p{
+  margin:6px 0 0;
+  font-size:14px;
 }
 
-header p {
-  margin: 6px 0 0;
+main{
+  max-width:520px;
+  margin:15px auto;
+  padding:0 12px 30px;
 }
 
-.container {
-  max-width: 720px;
-  margin: 20px auto;
-  padding: 0 14px;
+.card{
+  background:white;
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:12px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
-.card {
-  background: white;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 16px;
-  box-shadow: 0 5px 18px rgba(0,0,0,.08);
+.student{
+  font-size:13px;
 }
 
-h2, h3 {
-  margin-top: 0;
+.student strong{
+  display:block;
+  font-size:17px;
 }
 
-input {
-  width: 100%;
-  padding: 14px;
-  border: 1px solid #d1d5db;
-  border-radius: 10px;
-  font-size: 17px;
+.timer{
+  text-align:center;
+  font-size:30px;
+  font-weight:700;
+  margin-top:8px;
 }
 
-button {
-  border: 0;
-  border-radius: 11px;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
+h2{
+  font-size:20px;
+  margin:0 0 12px;
 }
 
-.primary {
-  width: 100%;
-  background: #17324d;
-  color: white;
-  margin-top: 14px;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
 
-.hidden {
-  display: none;
+button{
+  border:0;
+  border-radius:9px;
+  cursor:pointer;
+  font-weight:600;
+  font-size:14px;
 }
 
-/* CABECERA EVALUACIÓN */
-
-.student {
-  font-size: 14px;
+.category{
+  min-height:58px;
+  padding:10px;
+  background:#173b5b;
+  color:white;
 }
 
-.student-name {
-  font-size: 21px;
-  font-weight: 700;
+.category span{
+  display:block;
+  font-size:18px;
+  margin-bottom:4px;
 }
 
-.timer {
-  text-align: center;
-  font-size: 34px;
-  font-weight: 800;
-  margin-top: 12px;
+.back{
+  background:#e5e7eb;
+  color:#1f2937;
+  padding:9px 12px;
+  margin-bottom:12px;
 }
 
-/* CATEGORÍAS */
-
-.categories {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 10px;
+.incident{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:#f3f4f6;
+  color:#1f2937;
+  padding:13px;
+  margin:7px 0;
+  border:1px solid #e5e7eb;
 }
 
-.category {
-  min-height: 72px;
-  background: #17324d;
-  color: white;
+.incident:hover{
+  background:#e9eef4;
 }
 
-.category span {
-  display: block;
-  font-size: 22px;
-  margin-bottom: 4px;
+.section-title{
+  font-size:14px;
+  font-weight:700;
+  color:#173b5b;
+  margin:15px 0 7px;
 }
 
-/* INCIDENCIAS */
-
-.back {
-  background: #e5e7eb;
-  color: #1f2937;
-  margin-bottom: 14px;
+.counters{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
 }
 
-.incident-option {
-  width: 100%;
-  text-align: left;
-  background: #f3f4f6;
-  color: #111827;
-  margin-bottom: 9px;
-  line-height: 1.25;
+.counter{
+  background:#f3f4f6;
+  border-radius:9px;
+  padding:9px;
+  text-align:center;
+  font-size:12px;
 }
 
-.incident-option:hover {
-  background: #e5e7eb;
+.counter strong{
+  display:block;
+  font-size:19px;
 }
 
-/* CONTADORES */
-
-.counters {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 8px;
-  margin-top: 16px;
+.result{
+  margin-top:10px;
+  padding:9px;
+  text-align:center;
+  border-radius:8px;
+  font-weight:800;
 }
 
-.counter {
-  text-align: center;
-  background: #f3f4f6;
-  padding: 10px;
-  border-radius: 10px;
+.apto{
+  background:#d1fae5;
+  color:#166534;
 }
 
-.counter strong {
-  display: block;
-  font-size: 24px;
+.no-apto{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-.status {
-  margin-top: 14px;
-  padding: 12px;
-  border-radius: 10px;
-  text-align: center;
-  font-size: 18px;
-  font-weight: 800;
+.log-item{
+  border-bottom:1px solid #e5e7eb;
+  padding:9px 0;
+  font-size:13px;
 }
 
-.apto {
-  background: #d1fae5;
-  color: #166534;
+.log-item:last-child{
+  border-bottom:0;
 }
 
-.no-apto {
-  background: #fee2e2;
-  color: #991b1b;
+.badge{
+  display:inline-block;
+  min-width:25px;
+  text-align:center;
+  padding:3px 6px;
+  border-radius:5px;
+  color:white;
+  font-weight:700;
+  margin-right:5px;
 }
 
-/* HISTORIAL */
+.badge.E{background:#c81e1e}
+.badge.D{background:#df7a00}
+.badge.L{background:#2563eb}
 
-.history-item {
-  border-left: 5px solid #9ca3af;
-  background: #f9fafb;
-  padding: 10px 12px;
-  margin-bottom: 9px;
-  border-radius: 8px;
+.code{
+  font-weight:700;
+  color:#173b5b;
 }
 
-.history-item.E {
-  border-color: #dc2626;
+.finish{
+  width:100%;
+  padding:13px;
+  background:#173b5b;
+  color:white;
 }
 
-.history-item.D {
-  border-color: #ea8a00;
+.hidden{display:none}
+
+footer{
+  text-align:center;
+  font-size:11px;
+  color:#6b7280;
+  margin-top:18px;
 }
 
-.history-item.L {
-  border-color: #2563eb;
-}
-
-.code {
-  font-weight: 800;
-}
-
-.badge {
-  float: right;
-  font-weight: 800;
-}
-
-footer {
-  text-align: center;
-  color: #6b7280;
-  padding: 8px 0 30px;
-  font-size: 13px;
-}
-
-@media(max-width:520px) {
-  .categories {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .category {
-    font-size: 14px;
-  }
+.note{
+  font-size:12px;
+  color:#6b7280;
+  margin-top:10px;
 }
 </style>
 </head>
@@ -236,592 +221,543 @@ footer {
   <p>Evaluación de clases prácticas de conducción</p>
 </header>
 
-<div class="container">
+<main>
 
-  <!-- INICIO -->
+<div class="card">
+  <div class="student">
+    Alumno
+    <strong id="studentName">Alumno</strong>
+  </div>
+  <div class="timer" id="timer">00:00</div>
+</div>
 
-  <section id="startScreen">
+<div class="card" id="categoriesCard">
+  <h2>¿Qué ha ocurrido?</h2>
 
-    <div class="card">
-      <h2>Nueva evaluación</h2>
+  <div class="grid">
+    <button class="category" onclick="openCategory('incorporacion')">
+      <span>🚘</span>Incorporación
+    </button>
 
-      <label><strong>Alumno</strong></label>
+    <button class="category" onclick="openCategory('circulacion')">
+      <span>🛣️</span>Circulación / carril
+    </button>
 
-      <input
-        id="studentInput"
-        type="text"
-        placeholder="Nombre del alumno"
-      >
+    <button class="category" onclick="openCategory('interseccion')">
+      <span>➕</span>Intersección
+    </button>
 
-      <button class="primary" onclick="startEvaluation()">
-        Iniciar evaluación
-      </button>
+    <button class="category" onclick="openCategory('glorieta')">
+      <span>🔄</span>Glorieta
+    </button>
+
+    <button class="category" onclick="openCategory('velocidad')">
+      <span>⏱️</span>Velocidad
+    </button>
+
+    <button class="category" onclick="openCategory('peatones')">
+      <span>🚶</span>Peatones
+    </button>
+
+    <button class="category" onclick="openCategory('intermitentes')">
+      <span>↔️</span>Intermitentes
+    </button>
+
+    <button class="category" onclick="openCategory('senales')">
+      <span>🔴</span>Señales
+    </button>
+
+    <button class="category" onclick="openCategory('estacionamiento')">
+      <span>🅿️</span>Estacionamiento
+    </button>
+
+    <button class="category" onclick="openCategory('mandos')">
+      <span>⚙️</span>Mandos
+    </button>
+  </div>
+</div>
+
+<div class="card hidden" id="incidentCard">
+  <button class="back" onclick="goBack()">← Volver</button>
+  <h2 id="categoryTitle"></h2>
+  <div id="incidentButtons"></div>
+</div>
+
+<div class="card">
+  <div class="counters">
+
+    <div class="counter">
+      Eliminatorias
+      <strong id="countE">0</strong>
     </div>
 
-  </section>
-
-
-  <!-- EVALUACIÓN -->
-
-  <section id="evaluationScreen" class="hidden">
-
-    <div class="card">
-
-      <div class="student">Alumno</div>
-      <div id="studentName" class="student-name"></div>
-
-      <div id="timer" class="timer">00:00</div>
-
+    <div class="counter">
+      Deficientes
+      <strong id="countD">0</strong>
     </div>
 
-
-    <!-- CATEGORÍAS -->
-
-    <div id="categoryCard" class="card">
-
-      <h2>¿Qué ha ocurrido?</h2>
-
-      <div class="categories">
-
-        <button class="category" onclick="openCategory('incorporacion')">
-          <span>🚘</span>
-          Incorporación
-        </button>
-
-        <button class="category" onclick="openCategory('progresion')">
-          <span>🛣️</span>
-          Circulación / carril
-        </button>
-
-        <button class="category" onclick="openCategory('interseccion')">
-          <span>➕</span>
-          Intersección
-        </button>
-
-        <button class="category" onclick="openCategory('glorieta')">
-          <span>🔄</span>
-          Glorieta
-        </button>
-
-        <button class="category" onclick="openCategory('velocidad')">
-          <span>⏱️</span>
-          Velocidad
-        </button>
-
-        <button class="category" onclick="openCategory('peatones')">
-          <span>🚶</span>
-          Peatones
-        </button>
-
-        <button class="category" onclick="openCategory('senalizacion')">
-          <span>↔️</span>
-          Intermitentes
-        </button>
-
-        <button class="category" onclick="openCategory('senales')">
-          <span>🛑</span>
-          Señales
-        </button>
-
-        <button class="category" onclick="openCategory('estacionamiento')">
-          <span>🅿️</span>
-          Estacionamiento
-        </button>
-
-        <button class="category" onclick="openCategory('mandos')">
-          <span>⚙️</span>
-          Mandos
-        </button>
-
-      </div>
-
+    <div class="counter">
+      Leves
+      <strong id="countL">0</strong>
     </div>
 
+  </div>
 
-    <!-- LISTA INCIDENCIAS -->
+  <div id="result" class="result apto">APTO</div>
+</div>
 
-    <div id="incidentCard" class="card hidden">
+<div class="card">
+  <h2 style="font-size:16px">Incidencias registradas</h2>
+  <div id="log">Sin incidencias registradas.</div>
+</div>
 
-      <button class="back" onclick="backCategories()">
-        ← Volver
-      </button>
-
-      <h2 id="categoryTitle"></h2>
-
-      <div id="incidentOptions"></div>
-
-    </div>
-
-
-    <!-- RESULTADO -->
-
-    <div class="card">
-
-      <div class="counters">
-
-        <div class="counter">
-          Eliminatorias
-          <strong id="countE">0</strong>
-        </div>
-
-        <div class="counter">
-          Deficientes
-          <strong id="countD">0</strong>
-        </div>
-
-        <div class="counter">
-          Leves
-          <strong id="countL">0</strong>
-        </div>
-
-      </div>
-
-      <div id="status" class="status apto">
-        APTO
-      </div>
-
-    </div>
-
-
-    <!-- HISTORIAL -->
-
-    <div class="card">
-
-      <h3>Incidencias registradas</h3>
-
-      <div id="history">
-        Sin incidencias registradas.
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <button class="primary" onclick="finishEvaluation()">
-        Finalizar evaluación
-      </button>
-
-    </div>
-
-  </section>
-
+<div class="card">
+  <button class="finish" onclick="finishEvaluation()">
+    Finalizar evaluación
+  </button>
 </div>
 
 <footer>
-  Evaluador DGT · Versión 0.3
+  Evaluador DGT · Versión 0.4
 </footer>
 
+</main>
 
 <script>
 
-/*
-  BASE DE INCIDENCIAS v0.3
+/* ==============================
+   DATOS DE LA EVALUACIÓN
+================================ */
 
-  E = Eliminatoria
-  D = Deficiente
-  L = Leve
+const params = new URLSearchParams(window.location.search);
+const student = params.get("alumno") || localStorage.getItem("alumno") || "Alumno";
 
-  Esta versión inicia la estructura Situación → Incidencia →
-  código → calificación.
+document.getElementById("studentName").textContent = student;
 
-  El catálogo se ampliará progresivamente con todos los
-  criterios oficiales.
-*/
-
-const incidents = {
-
-  incorporacion: {
-    title: "🚘 Incorporación a la circulación",
-    items: [
-
-      {
-        text: "No observar el tráfico delante, detrás y/o lateralmente",
-        code: "3.1",
-        type: "L"
-      },
-
-      {
-        text: "Omitir la señal reglamentaria",
-        code: "3.2",
-        type: "L"
-      },
-
-      {
-        text: "Señalizar al contrario",
-        code: "3.2",
-        type: "L"
-      },
-
-      {
-        text: "Señalizar sin suficiente antelación",
-        code: "3.2",
-        type: "L"
-      },
-
-      {
-        text: "No extinguir el intermitente al finalizar",
-        code: "3.2",
-        type: "L"
-      },
-
-      {
-        text: "Realizar la incorporación obstaculizando",
-        code: "3.3",
-        type: "D"
-      },
-
-      {
-        text: "Realizar la incorporación de forma no gradual",
-        code: "3.3",
-        type: "L"
-      },
-
-      {
-        text: "Utilización inadecuada del carril de aceleración",
-        code: "3.3",
-        type: "L"
-      },
-
-      {
-        text: "Utilización inadecuada del carril de aceleración obstaculizando",
-        code: "3.3",
-        type: "D"
-      }
-
-    ]
-  },
+let seconds = 0;
+let E = 0;
+let D = 0;
+let L = 0;
+let records = [];
 
 
-  progresion: {
-    title: "🛣️ Circulación / carril",
-    items: [
+/* ==============================
+   CRONÓMETRO
+================================ */
 
-      {
-        text: "No circular por el carril derecho cuando sea reglamentario",
-        code: "4.1",
-        type: "L"
-      },
+setInterval(() => {
 
-      {
-        text: "No circular por el carril derecho, obstaculizando",
-        code: "4.1",
-        type: "D"
-      },
+  seconds++;
 
-      {
-        text: "Circular por el arcén parcial o totalmente",
-        code: "4.1",
-        type: "L"
-      }
+  const min = String(Math.floor(seconds / 60)).padStart(2,"0");
+  const sec = String(seconds % 60).padStart(2,"0");
 
-    ]
-  },
+  document.getElementById("timer").textContent = `${min}:${sec}`;
+
+},1000);
 
 
-  senalizacion: {
-    title: "↔️ Señalización / intermitentes",
-    items: [
+/* ==============================
+   CATÁLOGO DE INCIDENCIAS
 
-      {
-        text: "Omitir el intermitente",
-        code: "3.2",
-        type: "L"
-      },
+   En v0.4 empezamos con el
+   epígrafe 7 DGT:
+   INTERSECCIONES / GLORIETAS
+================================ */
 
-      {
-        text: "Señalizar al contrario",
-        code: "3.2",
-        type: "L"
-      },
-
-      {
-        text: "Señalizar tarde",
-        code: "3.2",
-        type: "L"
-      },
-
-      {
-        text: "Mantener el intermitente después de finalizar la maniobra",
-        code: "3.2",
-        type: "L"
-      }
-
-    ]
-  },
-
-
-  senales: {
-    title: "🛑 Obediencia de las señales",
-    items: [
-
-      {
-        text: "No respetar las señales de los agentes",
-        code: "11.1",
-        type: "E"
-      },
-
-      {
-        text: "Demorar la marcha cuando el agente permite pasar",
-        code: "11.1",
-        type: "L"
-      },
-
-      {
-        text: "Demorar la marcha cuando el agente permite pasar, obstaculizando",
-        code: "11.1",
-        type: "D"
-      }
-
-    ]
-  },
-
-
-  estacionamiento: {
-    title: "🅿️ Estacionamiento",
-    items: [
-
-      {
-        text: "No utilizar adecuadamente el espacio disponible",
-        code: "10",
-        type: "L"
-      },
-
-      {
-        text: "No utilizar adecuadamente el espacio disponible, obstaculizando",
-        code: "10",
-        type: "D"
-      },
-
-      {
-        text: "Golpear fuertemente el bordillo sin subirlo",
-        code: "10",
-        type: "L"
-      },
-
-      {
-        text: "Dejar el vehículo sensiblemente oblicuo",
-        code: "10",
-        type: "L"
-      },
-
-      {
-        text: "No accionar el freno de estacionamiento",
-        code: "10",
-        type: "L"
-      }
-
-    ]
-  },
-
+const catalog = {
 
   interseccion: {
-    title: "➕ Intersección",
-    items: [
+
+    title:"➕ Intersección",
+
+    groups:[
+
       {
-        text: "Catálogo pendiente de incorporar desde los criterios DGT",
-        disabled: true
+        title:"7.1 · Observación",
+        items:[
+
+          {
+            text:"No observa correctamente el tráfico",
+            code:"7.1",
+            grade:"L"
+          },
+
+          {
+            text:"No observa la señalización existente",
+            code:"7.1",
+            grade:"L"
+          }
+
+        ]
+      },
+
+      {
+        title:"7.2 · Señalización",
+        items:[
+
+          {
+            text:"Omite la señal reglamentaria",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"Señaliza al contrario",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"Señaliza sin suficiente antelación",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"Señaliza con excesiva antelación",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"No mantiene la señalización",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"No extingue la señalización finalizada la maniobra",
+            code:"7.2",
+            grade:"L"
+          }
+
+        ]
+      },
+
+      {
+        title:"7.3 · Posición",
+        items:[
+
+          {
+            text:"Posición inadecuada en la intersección",
+            code:"7.3",
+            grade:"L"
+          },
+
+          {
+            text:"Posición inadecuada obstaculizando",
+            code:"7.3",
+            grade:"D"
+          },
+
+          {
+            text:"Circula por sentido contrario dejando a la derecha el centro de la glorieta, isleta o dispositivo de guía",
+            code:"7.3",
+            grade:"E"
+          }
+
+        ]
+      },
+
+      {
+        title:"7.4 · Velocidad",
+        items:[
+
+          {
+            text:"Se aproxima a velocidad inadecuada",
+            code:"7.4",
+            grade:"L"
+          },
+
+          {
+            text:"Franquea la intersección a velocidad inadecuada",
+            code:"7.4",
+            grade:"L"
+          },
+
+          {
+            text:"Velocidad excesivamente reducida sin causa justificada",
+            code:"7.4",
+            grade:"L"
+          },
+
+          {
+            text:"Velocidad excesivamente reducida obstaculizando",
+            code:"7.4",
+            grade:"D"
+          },
+
+          {
+            text:"Franquea a velocidad inadecuada generando una situación eliminatoria",
+            code:"7.4",
+            grade:"E"
+          }
+
+        ]
+      },
+
+      {
+        title:"7.5 · Detención",
+        items:[
+
+          {
+            text:"Detención súbita por falta de anticipación",
+            code:"7.5",
+            grade:"L"
+          },
+
+          {
+            text:"Se detiene antes de alcanzar la zona de máxima visibilidad",
+            code:"7.5",
+            grade:"L"
+          }
+
+        ]
       }
+
     ]
   },
 
 
   glorieta: {
-    title: "🔄 Glorieta",
-    items: [
+
+    title:"🔄 Glorieta",
+
+    groups:[
+
       {
-        text: "Catálogo pendiente de incorporar desde los criterios DGT",
-        disabled: true
-      }
-    ]
-  },
+        title:"Observación",
+        items:[
 
+          {
+            text:"No observa correctamente antes de entrar",
+            code:"7.1",
+            grade:"L"
+          },
 
-  velocidad: {
-    title: "⏱️ Velocidad",
-    items: [
+          {
+            text:"No observa correctamente antes de cambiar de posición",
+            code:"7.1",
+            grade:"L"
+          }
+
+        ]
+      },
+
       {
-        text: "Catálogo pendiente de incorporar desde los criterios DGT",
-        disabled: true
-      }
-    ]
-  },
+        title:"Señalización",
+        items:[
 
+          {
+            text:"No señaliza cuando es obligatorio",
+            code:"7.2",
+            grade:"L"
+          },
 
-  peatones: {
-    title: "🚶 Peatones",
-    items: [
+          {
+            text:"Señaliza al contrario",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"No mantiene correctamente la señalización",
+            code:"7.2",
+            grade:"L"
+          },
+
+          {
+            text:"No extingue el intermitente después de la maniobra",
+            code:"7.2",
+            grade:"L"
+          }
+
+        ]
+      },
+
       {
-        text: "Catálogo pendiente de incorporar desde los criterios DGT",
-        disabled: true
-      }
-    ]
-  },
+        title:"Posición",
+        items:[
 
+          {
+            text:"Posición inadecuada durante el franqueo",
+            code:"7.3",
+            grade:"L"
+          },
 
-  mandos: {
-    title: "⚙️ Mandos del vehículo",
-    items: [
+          {
+            text:"Posición inadecuada obstaculizando",
+            code:"7.3",
+            grade:"D"
+          },
+
+          {
+            text:"Circula en sentido contrario alrededor de la glorieta",
+            code:"7.3",
+            grade:"E"
+          }
+
+        ]
+      },
+
       {
-        text: "Catálogo pendiente de incorporar desde los criterios DGT",
-        disabled: true
+        title:"Velocidad",
+        items:[
+
+          {
+            text:"Se aproxima a velocidad inadecuada",
+            code:"7.4",
+            grade:"L"
+          },
+
+          {
+            text:"Franquea la glorieta a velocidad inadecuada",
+            code:"7.4",
+            grade:"L"
+          },
+
+          {
+            text:"Circula excesivamente despacio sin causa",
+            code:"7.4",
+            grade:"L"
+          },
+
+          {
+            text:"Circula excesivamente despacio obstaculizando",
+            code:"7.4",
+            grade:"D"
+          }
+
+        ]
+      },
+
+      {
+        title:"Detención",
+        items:[
+
+          {
+            text:"Se detiene bruscamente por falta de anticipación",
+            code:"7.5",
+            grade:"L"
+          },
+
+          {
+            text:"Se detiene sin alcanzar la zona de máxima visibilidad",
+            code:"7.5",
+            grade:"L"
+          }
+
+        ]
       }
+
     ]
   }
 
 };
 
 
-let evaluation = [];
-let seconds = 0;
-let timerInterval;
+/* ==============================
+   ABRIR CATEGORÍA
+================================ */
 
+function openCategory(category){
 
-/* INICIAR */
+  const data = catalog[category];
 
-function startEvaluation() {
+  document.getElementById("categoriesCard").classList.add("hidden");
+  document.getElementById("incidentCard").classList.remove("hidden");
 
-  const name =
-    document.getElementById("studentInput").value.trim();
-
-  if (!name) {
-    alert("Introduce el nombre del alumno.");
-    return;
-  }
-
-  document.getElementById("studentName").textContent = name;
-
-  document.getElementById("startScreen")
-    .classList.add("hidden");
-
-  document.getElementById("evaluationScreen")
-    .classList.remove("hidden");
-
-  seconds = 0;
-
-  timerInterval = setInterval(() => {
-
-    seconds++;
-
-    const min =
-      String(Math.floor(seconds / 60)).padStart(2,"0");
-
-    const sec =
-      String(seconds % 60).padStart(2,"0");
-
-    document.getElementById("timer").textContent =
-      `${min}:${sec}`;
-
-  },1000);
-}
-
-
-/* ABRIR CATEGORÍA */
-
-function openCategory(category) {
-
-  const data = incidents[category];
-
-  document.getElementById("categoryCard")
-    .classList.add("hidden");
-
-  document.getElementById("incidentCard")
-    .classList.remove("hidden");
-
-  document.getElementById("categoryTitle")
-    .textContent = data.title;
-
-  const container =
-    document.getElementById("incidentOptions");
+  const title = document.getElementById("categoryTitle");
+  const container = document.getElementById("incidentButtons");
 
   container.innerHTML = "";
 
-  data.items.forEach(item => {
+  if(!data){
 
-    const button = document.createElement("button");
+    title.textContent = categoryName(category);
 
-    button.className = "incident-option";
+    container.innerHTML = `
+      <div class="note">
+        Esta categoría se incorporará en las siguientes versiones
+        utilizando los criterios oficiales DGT.
+      </div>
+    `;
 
-    button.textContent = item.text;
+    return;
+  }
 
-    if (item.disabled) {
+  title.textContent = data.title;
 
-      button.disabled = true;
-      button.style.opacity = ".5";
+  data.groups.forEach(group => {
 
-    } else {
+    const heading = document.createElement("div");
+    heading.className = "section-title";
+    heading.textContent = group.title;
 
-      button.onclick = () =>
-        registerIncident(item, data.title);
+    container.appendChild(heading);
 
-    }
+    group.items.forEach(item => {
 
-    container.appendChild(button);
+      const button = document.createElement("button");
 
-  });
-}
+      button.className = "incident";
+      button.textContent = item.text;
 
+      button.onclick = () => registerIncident(
+        item.code,
+        item.text,
+        item.grade
+      );
 
-/* VOLVER */
+      container.appendChild(button);
 
-function backCategories() {
-
-  document.getElementById("incidentCard")
-    .classList.add("hidden");
-
-  document.getElementById("categoryCard")
-    .classList.remove("hidden");
-}
-
-
-/* REGISTRAR */
-
-function registerIncident(item, category) {
-
-  evaluation.push({
-
-    ...item,
-
-    category: category,
-
-    time: document.getElementById("timer").textContent
+    });
 
   });
 
-  updateEvaluation();
-
-  /* vuelve automáticamente a las categorías */
-
-  backCategories();
 }
 
 
-/* ACTUALIZAR */
+/* ==============================
+   REGISTRAR INCIDENCIA
+================================ */
 
-function updateEvaluation() {
+function registerIncident(code,text,grade){
 
-  const E =
-    evaluation.filter(x => x.type === "E").length;
+  if(grade === "E") E++;
+  if(grade === "D") D++;
+  if(grade === "L") L++;
 
-  const D =
-    evaluation.filter(x => x.type === "D").length;
+  records.push({
+    time: document.getElementById("timer").textContent,
+    code,
+    text,
+    grade
+  });
 
-  const L =
-    evaluation.filter(x => x.type === "L").length;
+  updateScreen();
 
+}
+
+
+/* ==============================
+   ACTUALIZAR RESULTADO
+================================ */
+
+function updateScreen(){
 
   document.getElementById("countE").textContent = E;
   document.getElementById("countD").textContent = D;
   document.getElementById("countL").textContent = L;
 
-
   /*
-    BAREMO DGT:
+     Baremo DGT:
 
-    1 E
-    2 D
-    1 D + 5 L
-    10 L
+     1 E
+     2 D
+     1 D + 5 L
+     10 L
   */
 
   const noApto =
@@ -830,96 +766,96 @@ function updateEvaluation() {
     (D >= 1 && L >= 5) ||
     L >= 10;
 
+  const result = document.getElementById("result");
 
-  const status =
-    document.getElementById("status");
-
-  if (noApto) {
-
-    status.textContent = "NO APTO";
-    status.className = "status no-apto";
-
-  } else {
-
-    status.textContent = "APTO";
-    status.className = "status apto";
-
-  }
+  result.textContent = noApto ? "NO APTO" : "APTO";
+  result.className = noApto
+    ? "result no-apto"
+    : "result apto";
 
 
-  updateHistory();
-}
+  const log = document.getElementById("log");
 
+  if(records.length === 0){
 
-/* HISTORIAL */
-
-function updateHistory() {
-
-  const history =
-    document.getElementById("history");
-
-  if (evaluation.length === 0) {
-
-    history.innerHTML =
-      "Sin incidencias registradas.";
-
+    log.textContent = "Sin incidencias registradas.";
     return;
+
   }
 
-  history.innerHTML = "";
+  log.innerHTML = "";
 
-  evaluation
-    .slice()
-    .reverse()
-    .forEach(item => {
+  records.forEach((record,index) => {
 
-      const div =
-        document.createElement("div");
+    const row = document.createElement("div");
+    row.className = "log-item";
 
-      div.className =
-        `history-item ${item.type}`;
+    row.innerHTML = `
+      <span class="badge ${record.grade}">
+        ${record.grade}
+      </span>
 
-      div.innerHTML = `
+      <span class="code">
+        ${record.code}
+      </span>
 
-        <span class="badge">
-          ${item.type}
-        </span>
+      · ${record.text}
 
-        <span class="code">
-          ${item.code}
-        </span>
+      <br>
 
-        · ${item.text}
+      <small>
+        ⏱ ${record.time}
+      </small>
+    `;
 
-        <br>
+    log.appendChild(row);
 
-        <small>
-          ${item.time}
-        </small>
-
-      `;
-
-      history.appendChild(div);
-
-    });
+  });
 
 }
 
 
-/* FINALIZAR */
+/* ==============================
+   VOLVER
+================================ */
 
-function finishEvaluation() {
+function goBack(){
 
-  clearInterval(timerInterval);
+  document.getElementById("incidentCard").classList.add("hidden");
+  document.getElementById("categoriesCard").classList.remove("hidden");
 
-  const E =
-    evaluation.filter(x => x.type === "E").length;
+}
 
-  const D =
-    evaluation.filter(x => x.type === "D").length;
 
-  const L =
-    evaluation.filter(x => x.type === "L").length;
+/* ==============================
+   NOMBRES DE CATEGORÍAS
+================================ */
+
+function categoryName(category){
+
+  const names = {
+    incorporacion:"🚘 Incorporación",
+    circulacion:"🛣️ Circulación / carril",
+    interseccion:"➕ Intersección",
+    glorieta:"🔄 Glorieta",
+    velocidad:"⏱️ Velocidad",
+    peatones:"🚶 Peatones",
+    intermitentes:"↔️ Intermitentes",
+    senales:"🔴 Señales",
+    estacionamiento:"🅿️ Estacionamiento",
+    mandos:"⚙️ Mandos"
+  };
+
+  return names[category] || category;
+
+}
+
+
+/* ==============================
+   FINALIZAR
+================================ */
+
+function finishEvaluation(){
 
   const noApto =
     E >= 1 ||
@@ -927,16 +863,29 @@ function finishEvaluation() {
     (D >= 1 && L >= 5) ||
     L >= 10;
 
-  const result =
-    noApto ? "NO APTO" : "APTO";
+  let summary = `Alumno: ${student}\n`;
+  summary += `Tiempo: ${document.getElementById("timer").textContent}\n\n`;
 
-  alert(
-    "Evaluación finalizada\n\n" +
-    "Resultado: " + result + "\n" +
-    "Eliminatorias: " + E + "\n" +
-    "Deficientes: " + D + "\n" +
-    "Leves: " + L
-  );
+  summary += `Eliminatorias: ${E}\n`;
+  summary += `Deficientes: ${D}\n`;
+  summary += `Leves: ${L}\n\n`;
+
+  summary += `RESULTADO: ${noApto ? "NO APTO" : "APTO"}`;
+
+  if(records.length){
+
+    summary += "\n\nINCIDENCIAS:\n";
+
+    records.forEach(record => {
+
+      summary +=
+        `\n${record.grade} · ${record.code} · ${record.text}`;
+
+    });
+
+  }
+
+  alert(summary);
 
 }
 
