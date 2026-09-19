@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Evaluador DGT</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background: #17324d;
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      opacity: 0.85;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 0 18px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 12px;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .primary {
+      background: #17324d;
+      color: white;
+    }
+
+    .version {
+      text-align: center;
+      color: #6b7280;
+      font-size: 13px;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>🚗 Evaluador DGT</h1>
+    <p>Evaluación de clases prácticas de conducción</p>
+  </header>
+
+  <main>
+
+    <section class="card">
+      <h2>Nueva evaluación</h2>
+
+      <label for="alumno">Alumno</label>
+      <input
+        type="text"
+        id="alumno"
+        placeholder="Nombre del alumno"
+      >
+    </section>
+
+    <section class="card">
+      <h2>Clase práctica</h2>
+      <p>
+        Registra las incidencias observadas durante la conducción
+        siguiendo los criterios de calificación de la DGT.
+      </p>
+
+      <button class="primary" onclick="iniciarEvaluacion()">
+        Iniciar evaluación
+      </button>
+    </section>
+
+    <p class="version">
+      Evaluador DGT · Versión 0.1
+    </p>
+
+  </main>
+
+  <script>
+    function iniciarEvaluacion() {
+      const alumno = document.getElementById("alumno").value.trim();
+
+      if (!alumno) {
+        alert("Introduce el nombre del alumno.");
+        return;
+      }
+
+      alert("Evaluación iniciada para: " + alumno);
+    }
+  </script>
+
+</body>
+</html>
