@@ -70,12 +70,34 @@ input{
   margin-bottom:14px;
 }
 
-button{
-  border:none;
-  border-radius:11px;
-  cursor:pointer;
-  font-family:inherit;
-  -webkit-tap-highlight-color:transparent;
+input:focus{
+  outline:none;
+  border-color:#17324d;
+}
+
+.km-input{
+  font-size:22px;
+  font-weight:800;
+  letter-spacing:2px;
+  text-align:center;
+}
+
+.helper{
+  color:#64748b;
+  font-size:12px;
+  margin-top:-8px;
+  margin-bottom:14px;
+}
+
+.error{
+  color:#b91c1c;
+  background:#fef2f2;
+  border:1px solid #fecaca;
+  padding:10px;
+  border-radius:9px;
+  margin-bottom:12px;
+  font-size:13px;
+  font-weight:700;
 }
 
 .primary{
@@ -97,11 +119,32 @@ button{
   font-weight:800;
 }
 
+.class-info{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+  gap:15px;
+  margin-top:10px;
+}
+
+.km-info{
+  text-align:right;
+}
+
+.km-info-label{
+  display:block;
+  color:#64748b;
+  font-size:11px;
+}
+
+.km-info-value{
+  font-weight:800;
+  font-size:17px;
+}
+
 #timer{
-  text-align:center;
   font-size:33px;
   font-weight:800;
-  margin-top:6px;
 }
 
 .instruction{
@@ -134,6 +177,14 @@ button{
   display:block;
   font-size:21px;
   margin-bottom:4px;
+}
+
+button{
+  border:none;
+  border-radius:11px;
+  cursor:pointer;
+  font-family:inherit;
+  -webkit-tap-highlight-color:transparent;
 }
 
 .back{
@@ -264,6 +315,25 @@ button{
   color:#1f2937;
 }
 
+.finish-data{
+  background:#f8fafc;
+  border-radius:12px;
+  padding:13px;
+  margin-bottom:15px;
+  border:1px solid #e2e8f0;
+}
+
+.finish-data-row{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:4px 0;
+}
+
+.finish-data-value{
+  font-weight:800;
+}
+
 .toast{
   position:fixed;
   bottom:20px;
@@ -325,7 +395,6 @@ footer{
 </style>
 </head>
 
-
 <body>
 
 <header>
@@ -333,9 +402,7 @@ footer{
   <p>Apunta rápidamente los fallos del alumno</p>
 </header>
 
-
 <main>
-
 
 <!-- INICIO -->
 
@@ -352,6 +419,26 @@ footer{
     autocomplete="off"
   >
 
+  <label for="startKmInput">Kilómetros iniciales</label>
+
+  <input
+    id="startKmInput"
+    class="km-input"
+    type="text"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    maxlength="6"
+    placeholder="000000"
+    autocomplete="off"
+    oninput="onlySixDigits(this)"
+  >
+
+  <div class="helper">
+    Introduce los 6 dígitos del cuentakilómetros.
+  </div>
+
+  <div id="startError" class="error hidden"></div>
+
   <button class="primary" onclick="startClass()">
     Iniciar clase
   </button>
@@ -359,11 +446,9 @@ footer{
 </section>
 
 
-
 <!-- CLASE -->
 
 <div id="evaluationScreen" class="hidden">
-
 
 <section class="card">
 
@@ -371,14 +456,25 @@ footer{
 
   <div id="studentName" class="student-name"></div>
 
-  <div id="timer">00:00</div>
+  <div class="class-info">
+
+    <div>
+      <div class="student-label">Duración</div>
+      <div id="timer">00:00</div>
+    </div>
+
+    <div class="km-info">
+      <span class="km-info-label">KM iniciales</span>
+      <span id="startKmDisplay" class="km-info-value"></span>
+    </div>
+
+  </div>
 
   <div id="recoveryMessage" class="recovery hidden">
     ✓ Clase recuperada correctamente
   </div>
 
 </section>
-
 
 
 <!-- CATEGORÍAS -->
@@ -391,98 +487,81 @@ footer{
     Toca una categoría y después el fallo.
   </p>
 
-
   <div class="grid">
-
 
     <button class="category" onclick="openCategory('glorieta')">
       <span>🔄</span>
       Glorieta
     </button>
 
-
     <button class="category" onclick="openCategory('interseccion')">
       <span>➕</span>
       Intersección
     </button>
-
 
     <button class="category" onclick="openCategory('incorporacion')">
       <span>🚘</span>
       Incorporación
     </button>
 
-
     <button class="category" onclick="openCategory('circulacion')">
       <span>🛣️</span>
       Circulación
     </button>
-
 
     <button class="category" onclick="openCategory('velocidad')">
       <span>⏱️</span>
       Velocidad
     </button>
 
-
     <button class="category" onclick="openCategory('peatones')">
       <span>🚶</span>
       Peatones
     </button>
-
 
     <button class="category" onclick="openCategory('intermitentes')">
       <span>💡</span>
       Intermitentes
     </button>
 
-
     <button class="category" onclick="openCategory('carril')">
       <span>↔️</span>
       Carril / posición
     </button>
-
 
     <button class="category" onclick="openCategory('adelantamiento')">
       <span>🚗💨</span>
       Adelantamiento
     </button>
 
-
     <button class="category" onclick="openCategory('estacionamiento')">
       <span>🅿️</span>
       Estacionamiento
     </button>
-
 
     <button class="category" onclick="openCategory('stopceda')">
       <span>🛑</span>
       STOP / Ceda
     </button>
 
-
     <button class="category" onclick="openCategory('mandos')">
       <span>⚙️</span>
       Mandos
     </button>
-
 
     <button class="category" onclick="openCategory('observacion')">
       <span>👀</span>
       Observación
     </button>
 
-
     <button class="category" onclick="openCategory('otros')">
       <span>⚠️</span>
       Otros
     </button>
 
-
   </div>
 
 </section>
-
 
 
 <!-- FALLOS -->
@@ -498,7 +577,6 @@ footer{
   <div id="faultOptions"></div>
 
 </section>
-
 
 
 <!-- TERCER TOQUE -->
@@ -518,7 +596,6 @@ footer{
   <div id="detailOptions"></div>
 
 </section>
-
 
 
 <!-- REGISTRO -->
@@ -546,33 +623,92 @@ footer{
 </section>
 
 
-
 <section class="card">
 
   <h3>Últimos fallos</h3>
 
   <div id="incidentList">
-    <div class="empty">Todavía no has registrado ningún fallo.</div>
+    <div class="empty">
+      Todavía no has registrado ningún fallo.
+    </div>
   </div>
 
 </section>
 
 
-
 <section class="card">
 
-  <button class="primary finish" onclick="finishClass()">
+  <button class="primary finish" onclick="openFinishScreen()">
     Finalizar clase
   </button>
 
 </section>
 
-
 </div>
 
 
+<!-- KM FINALES -->
 
-<!-- RESUMEN FINAL -->
+<section id="finishScreen" class="card hidden">
+
+  <h2>Finalizar clase</h2>
+
+  <div class="finish-data">
+
+    <div class="finish-data-row">
+      <span>Alumno</span>
+      <span id="finishStudent" class="finish-data-value"></span>
+    </div>
+
+    <div class="finish-data-row">
+      <span>KM iniciales</span>
+      <span id="finishStartKm" class="finish-data-value"></span>
+    </div>
+
+    <div class="finish-data-row">
+      <span>Duración</span>
+      <span id="finishDuration" class="finish-data-value"></span>
+    </div>
+
+  </div>
+
+  <label for="endKmInput">
+    Kilómetros finales
+  </label>
+
+  <input
+    id="endKmInput"
+    class="km-input"
+    type="text"
+    inputmode="numeric"
+    pattern="[0-9]*"
+    maxlength="6"
+    placeholder="000000"
+    autocomplete="off"
+    oninput="onlySixDigits(this)"
+  >
+
+  <div class="helper">
+    Introduce los 6 dígitos del cuentakilómetros.
+  </div>
+
+  <div id="endError" class="error hidden"></div>
+
+  <button class="primary" onclick="finishClass()">
+    Confirmar y finalizar clase
+  </button>
+
+  <button
+    class="primary new-class"
+    onclick="cancelFinish()"
+  >
+    ← Volver a la clase
+  </button>
+
+</section>
+
+
+<!-- RESUMEN -->
 
 <section id="summaryScreen" class="hidden">
 
@@ -596,7 +732,6 @@ footer{
 
 </section>
 
-
 </main>
 
 
@@ -606,794 +741,322 @@ footer{
 
 
 <footer>
-  Registro de clase · Versión 0.7.1
+  Registro de clase · Versión 0.7.2
 </footer>
-
 
 
 <script>
 
-
 /*
 =====================================================
-VERSIÓN 0.7.1
+VERSIÓN 0.7.2
 
-MEJORAS:
-
-1. El cronómetro utiliza la hora real de inicio.
-2. No pierde tiempo al cambiar de aplicación.
-3. La clase activa se guarda en localStorage.
-4. Los fallos se recuperan si Safari recarga.
+- Cronómetro basado en hora real.
+- Recuperación de clase con localStorage.
+- KM iniciales obligatorios: 6 dígitos.
+- KM finales obligatorios: 6 dígitos.
+- Los KM finales no pueden ser inferiores.
+- Cálculo automático de KM realizados.
 =====================================================
 */
 
-
-const STORAGE_KEY = "registroClaseActiva_v071";
-
+const STORAGE_KEY = "registroClaseActiva_v072";
 
 let startTime = null;
-
 let timerInterval = null;
-
 let incidents = [];
-
 let currentCategory = null;
-
 let currentStudent = "";
+let startKm = "";
+let endKm = "";
 
 
+/* =================================================
+   CATÁLOGO
+================================================= */
 
 const categories = {
 
-
-
-/* =================================================
-   GLORIETAS
-================================================= */
-
 glorieta: {
-
   title: "🔄 Glorieta",
-
   faults: [
-
+    {text:"⚙️ No llega con la marcha correcta"},
+    {text:"👀 No observa bien antes de entrar"},
+    {text:"🐌 Se queda parado pudiendo entrar"},
     {
-      text: "⚙️ No llega con la marcha correcta"
-    },
-
-    {
-      text: "👀 No observa bien antes de entrar"
-    },
-
-    {
-      text: "🐌 Se queda parado pudiendo entrar"
-    },
-
-    {
-      text: "🚗 Entra cuando no debe",
-      details: [
+      text:"🚗 Entra cuando no debe",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
-    {
-      text: "📍 Mala colocación dentro de la glorieta"
-    },
-
-    {
-      text: "↗️ Sale desde el carril interior"
-    },
-
-    {
-      text: "💡 No pone intermitente para salir"
-    },
-
-    {
-      text: "💡 Pone mal el intermitente"
-    },
-
-    {
-      text: "⏱️ Llega demasiado rápido"
-    },
-
-    {
-      text: "🚶 No presta atención a peatones al salir"
-    }
-
+    {text:"📍 Mala colocación dentro de la glorieta"},
+    {text:"↗️ Sale desde el carril interior"},
+    {text:"💡 No pone intermitente para salir"},
+    {text:"💡 Pone mal el intermitente"},
+    {text:"⏱️ Llega demasiado rápido"},
+    {text:"🚶 No presta atención a peatones al salir"}
   ]
-
 },
-
-
-
-/* =================================================
-   INTERSECCIONES
-================================================= */
 
 interseccion: {
-
-  title: "➕ Intersección",
-
-  faults: [
-
+  title:"➕ Intersección",
+  faults:[
+    {text:"👀 No observa bien"},
+    {text:"⚙️ No llega con la marcha correcta"},
+    {text:"⏱️ Llega demasiado rápido"},
+    {text:"📍 Se coloca mal"},
     {
-      text: "👀 No observa bien"
-    },
-
-    {
-      text: "⚙️ No llega con la marcha correcta"
-    },
-
-    {
-      text: "⏱️ Llega demasiado rápido"
-    },
-
-    {
-      text: "📍 Se coloca mal"
-    },
-
-    {
-      text: "🚗 No respeta la prioridad",
-      details: [
+      text:"🚗 No respeta la prioridad",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
-    {
-      text: "🐌 Se queda parado pudiendo continuar"
-    },
-
-    {
-      text: "💡 No señaliza el giro"
-    },
-
-    {
-      text: "↪️ Hace mal el giro"
-    }
-
+    {text:"🐌 Se queda parado pudiendo continuar"},
+    {text:"💡 No señaliza el giro"},
+    {text:"↪️ Hace mal el giro"}
   ]
-
 },
-
-
-
-/* =================================================
-   INCORPORACIÓN
-================================================= */
 
 incorporacion: {
-
-  title: "🚘 Incorporación",
-
-  faults: [
-
+  title:"🚘 Incorporación",
+  faults:[
+    {text:"👀 No mira antes de incorporarse"},
+    {text:"💡 No pone intermitente"},
+    {text:"🐌 Tarda demasiado en incorporarse"},
+    {text:"⏱️ Se incorpora con poca velocidad"},
+    {text:"💨 Se incorpora demasiado rápido"},
+    {text:"🛣️ No aprovecha el carril de aceleración"},
     {
-      text: "👀 No mira antes de incorporarse"
-    },
-
-    {
-      text: "💡 No pone intermitente"
-    },
-
-    {
-      text: "🐌 Tarda demasiado en incorporarse"
-    },
-
-    {
-      text: "⏱️ Se incorpora con poca velocidad"
-    },
-
-    {
-      text: "💨 Se incorpora demasiado rápido"
-    },
-
-    {
-      text: "🛣️ No aprovecha el carril de aceleración"
-    },
-
-    {
-      text: "🚗 Se incorpora cuando no debe",
-      details: [
+      text:"🚗 Se incorpora cuando no debe",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
-    {
-      text: "↔️ Se incorpora de forma brusca"
-    }
-
+    {text:"↔️ Se incorpora de forma brusca"}
   ]
-
 },
-
-
-
-/* =================================================
-   CIRCULACIÓN
-================================================= */
 
 circulacion: {
-
-  title: "🛣️ Circulación",
-
-  faults: [
-
+  title:"🛣️ Circulación",
+  faults:[
+    {text:"➡️ No circula por la derecha"},
+    {text:"📏 Va demasiado cerca del vehículo de delante"},
+    {text:"↔️ Pasa demasiado cerca de otros vehículos"},
+    {text:"🐌 Circula demasiado despacio"},
+    {text:"🚗 Obstaculiza la circulación"},
+    {text:"🛣️ Pisa o invade el arcén"},
     {
-      text: "➡️ No circula por la derecha"
-    },
-
-    {
-      text: "📏 Va demasiado cerca del vehículo de delante"
-    },
-
-    {
-      text: "↔️ Pasa demasiado cerca de otros vehículos"
-    },
-
-    {
-      text: "🐌 Circula demasiado despacio"
-    },
-
-    {
-      text: "🚗 Obstaculiza la circulación"
-    },
-
-    {
-      text: "🛣️ Pisa o invade el arcén"
-    },
-
-    {
-      text: "⬅️ Invade el sentido contrario",
-      details: [
+      text:"⬅️ Invade el sentido contrario",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
-    {
-      text: "📍 Mala posición en el carril"
-    }
-
+    {text:"📍 Mala posición en el carril"}
   ]
-
 },
-
-
-
-/* =================================================
-   VELOCIDAD
-================================================= */
 
 velocidad: {
-
-  title: "⏱️ Velocidad",
-
-  faults: [
-
-    {
-      text: "💨 Va demasiado rápido"
-    },
-
-    {
-      text: "🐌 Va demasiado despacio"
-    },
-
-    {
-      text: "🚦 No adapta la velocidad a la situación"
-    },
-
-    {
-      text: "🔄 Llega demasiado rápido a una glorieta"
-    },
-
-    {
-      text: "➕ Llega demasiado rápido a una intersección"
-    },
-
-    {
-      text: "🚶 No reduce ante peatones"
-    },
-
-    {
-      text: "🌧️ No adapta la velocidad a las condiciones"
-    },
-
-    {
-      text: "⚠️ Velocidad peligrosa"
-    }
-
+  title:"⏱️ Velocidad",
+  faults:[
+    {text:"💨 Va demasiado rápido"},
+    {text:"🐌 Va demasiado despacio"},
+    {text:"🚦 No adapta la velocidad a la situación"},
+    {text:"🔄 Llega demasiado rápido a una glorieta"},
+    {text:"➕ Llega demasiado rápido a una intersección"},
+    {text:"🚶 No reduce ante peatones"},
+    {text:"🌧️ No adapta la velocidad a las condiciones"},
+    {text:"⚠️ Velocidad peligrosa"}
   ]
-
 },
-
-
-
-/* =================================================
-   PEATONES
-================================================= */
 
 peatones: {
-
-  title: "🚶 Peatones",
-
-  faults: [
-
+  title:"🚶 Peatones",
+  faults:[
+    {text:"👀 No detecta la intención del peatón"},
+    {text:"⏱️ No reduce la velocidad"},
     {
-      text: "👀 No detecta la intención del peatón"
-    },
-
-    {
-      text: "⏱️ No reduce la velocidad"
-    },
-
-    {
-      text: "🛑 No se detiene cuando debe",
-      details: [
+      text:"🛑 No se detiene cuando debe",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
-    {
-      text: "↔️ Pasa demasiado cerca del peatón"
-    },
-
-    {
-      text: "🚶 No comprueba el paso de peatones"
-    },
-
-    {
-      text: "🔄 No mira peatones al salir de la glorieta"
-    }
-
+    {text:"↔️ Pasa demasiado cerca del peatón"},
+    {text:"🚶 No comprueba el paso de peatones"},
+    {text:"🔄 No mira peatones al salir de la glorieta"}
   ]
-
 },
-
-
-
-/* =================================================
-   INTERMITENTES
-================================================= */
 
 intermitentes: {
-
-  title: "💡 Intermitentes",
-
-  faults: [
-
-    {
-      text: "❌ No pone el intermitente"
-    },
-
-    {
-      text: "↔️ Pone el intermitente contrario"
-    },
-
-    {
-      text: "⏱️ Lo pone demasiado tarde"
-    },
-
-    {
-      text: "⏱️ Lo pone demasiado pronto"
-    },
-
-    {
-      text: "💡 Se deja el intermitente puesto"
-    },
-
-    {
-      text: "🔄 No señaliza la salida de la glorieta"
-    },
-
-    {
-      text: "🅿️ No señaliza al estacionar"
-    },
-
-    {
-      text: "🚘 No señaliza al incorporarse"
-    }
-
+  title:"💡 Intermitentes",
+  faults:[
+    {text:"❌ No pone el intermitente"},
+    {text:"↔️ Pone el intermitente contrario"},
+    {text:"⏱️ Lo pone demasiado tarde"},
+    {text:"⏱️ Lo pone demasiado pronto"},
+    {text:"💡 Se deja el intermitente puesto"},
+    {text:"🔄 No señaliza la salida de la glorieta"},
+    {text:"🅿️ No señaliza al estacionar"},
+    {text:"🚘 No señaliza al incorporarse"}
   ]
-
 },
-
-
-
-/* =================================================
-   CARRIL / POSICIÓN
-================================================= */
 
 carril: {
-
-  title: "↔️ Carril / posición",
-
-  faults: [
-
-    {
-      text: "📍 Va demasiado a la derecha"
-    },
-
-    {
-      text: "📍 Va demasiado a la izquierda"
-    },
-
-    {
-      text: "〰️ No mantiene bien el carril"
-    },
-
-    {
-      text: "↔️ Cambia de carril sin mirar"
-    },
-
-    {
-      text: "💡 Cambia de carril sin intermitente"
-    },
-
-    {
-      text: "🚗 Cambia de carril obstaculizando"
-    },
-
-    {
-      text: "⚠️ Cambia de carril provocando peligro"
-    },
-
-    {
-      text: "⬅️ Invade el carril contrario"
-    }
-
+  title:"↔️ Carril / posición",
+  faults:[
+    {text:"📍 Va demasiado a la derecha"},
+    {text:"📍 Va demasiado a la izquierda"},
+    {text:"〰️ No mantiene bien el carril"},
+    {text:"↔️ Cambia de carril sin mirar"},
+    {text:"💡 Cambia de carril sin intermitente"},
+    {text:"🚗 Cambia de carril obstaculizando"},
+    {text:"⚠️ Cambia de carril provocando peligro"},
+    {text:"⬅️ Invade el carril contrario"}
   ]
-
 },
-
-
-
-/* =================================================
-   ADELANTAMIENTO
-================================================= */
 
 adelantamiento: {
-
-  title: "🚗💨 Adelantamiento",
-
-  faults: [
-
-    {
-      text: "👀 No observa antes de adelantar"
-    },
-
-    {
-      text: "💡 No pone intermitente"
-    },
-
-    {
-      text: "📏 No deja suficiente distancia lateral"
-    },
-
-    {
-      text: "🐌 Tarda demasiado en adelantar"
-    },
-
-    {
-      text: "⏱️ No adapta bien la velocidad"
-    },
-
-    {
-      text: "➡️ Vuelve demasiado pronto al carril"
-    },
-
-    {
-      text: "🚗 Adelanta obstaculizando"
-    },
-
-    {
-      text: "⚠️ Adelanta provocando peligro"
-    }
-
+  title:"🚗💨 Adelantamiento",
+  faults:[
+    {text:"👀 No observa antes de adelantar"},
+    {text:"💡 No pone intermitente"},
+    {text:"📏 No deja suficiente distancia lateral"},
+    {text:"🐌 Tarda demasiado en adelantar"},
+    {text:"⏱️ No adapta bien la velocidad"},
+    {text:"➡️ Vuelve demasiado pronto al carril"},
+    {text:"🚗 Adelanta obstaculizando"},
+    {text:"⚠️ Adelanta provocando peligro"}
   ]
-
 },
-
-
-
-/* =================================================
-   ESTACIONAMIENTO
-================================================= */
 
 estacionamiento: {
-
-  title: "🅿️ Estacionamiento",
-
-  faults: [
-
-    {
-      text: "👀 No observa antes de empezar"
-    },
-
-    {
-      text: "💡 No pone intermitente"
-    },
-
-    {
-      text: "📍 Empieza desde una mala posición"
-    },
-
-    {
-      text: "📏 Se separa demasiado del vehículo"
-    },
-
-    {
-      text: "🔁 Hace demasiadas maniobras"
-    },
-
-    {
-      text: "📐 Deja el coche torcido"
-    },
-
-    {
-      text: "↔️ Deja el coche demasiado separado del bordillo"
-    },
-
-    {
-      text: "🛞 Golpea fuerte el bordillo"
-    },
-
-    {
-      text: "⬆️ Sube al bordillo"
-    },
-
-    {
-      text: "🚫 Estaciona donde no debe"
-    },
-
-    {
-      text: "🚪 No observa antes de abrir la puerta"
-    },
-
-    {
-      text: "🅿️ No pone el freno de estacionamiento"
-    }
-
+  title:"🅿️ Estacionamiento",
+  faults:[
+    {text:"👀 No observa antes de empezar"},
+    {text:"💡 No pone intermitente"},
+    {text:"📍 Empieza desde una mala posición"},
+    {text:"📏 Se separa demasiado del vehículo"},
+    {text:"🔁 Hace demasiadas maniobras"},
+    {text:"📐 Deja el coche torcido"},
+    {text:"↔️ Deja el coche demasiado separado del bordillo"},
+    {text:"🛞 Golpea fuerte el bordillo"},
+    {text:"⬆️ Sube al bordillo"},
+    {text:"🚫 Estaciona donde no debe"},
+    {text:"🚪 No observa antes de abrir la puerta"},
+    {text:"🅿️ No pone el freno de estacionamiento"}
   ]
-
 },
-
-
-
-/* =================================================
-   STOP / CEDA
-================================================= */
 
 stopceda: {
-
-  title: "🛑 STOP / Ceda",
-
-  faults: [
-
+  title:"🛑 STOP / Ceda",
+  faults:[
     {
-      text: "🛑 No se detiene en el STOP",
-      details: [
+      text:"🛑 No se detiene en el STOP",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
+    {text:"👀 Hace el STOP pero no tiene visibilidad"},
+    {text:"🛑 No hace la segunda detención cuando es necesaria"},
+    {text:"📍 Se detiene demasiado atrás"},
+    {text:"📍 Se detiene demasiado adelante"},
     {
-      text: "👀 Hace el STOP pero no tiene visibilidad"
-    },
-
-    {
-      text: "🛑 No hace la segunda detención cuando es necesaria"
-    },
-
-    {
-      text: "📍 Se detiene demasiado atrás"
-    },
-
-    {
-      text: "📍 Se detiene demasiado adelante"
-    },
-
-    {
-      text: "🚗 No respeta el Ceda",
-      details: [
+      text:"🚗 No respeta el Ceda",
+      details:[
         "Sin obstaculizar",
         "Obstaculizando",
         "Provocando peligro"
       ]
     },
-
-    {
-      text: "🐌 Se detiene en el Ceda sin necesidad"
-    },
-
-    {
-      text: "⏱️ Llega demasiado rápido"
-    },
-
-    {
-      text: "👀 No observa correctamente"
-    }
-
+    {text:"🐌 Se detiene en el Ceda sin necesidad"},
+    {text:"⏱️ Llega demasiado rápido"},
+    {text:"👀 No observa correctamente"}
   ]
-
 },
-
-
-
-/* =================================================
-   MANDOS
-================================================= */
 
 mandos: {
-
-  title: "⚙️ Mandos",
-
-  faults: [
-
-    {
-      text: "⚙️ Se cala el motor"
-    },
-
-    {
-      text: "🦶 Mal control del embrague"
-    },
-
-    {
-      text: "🦶 Pisa el embrague demasiado pronto"
-    },
-
-    {
-      text: "🚗 Acelera demasiado al salir"
-    },
-
-    {
-      text: "🛑 Frena demasiado brusco"
-    },
-
-    {
-      text: "⚙️ Lleva una marcha demasiado larga"
-    },
-
-    {
-      text: "⚙️ Lleva una marcha demasiado corta"
-    },
-
-    {
-      text: "⚙️ Tarda en cambiar de marcha"
-    },
-
-    {
-      text: "👐 Mala colocación de las manos"
-    },
-
-    {
-      text: "🛞 Mal control del volante"
-    },
-
-    {
-      text: "👣 Confunde los pedales"
-    }
-
+  title:"⚙️ Mandos",
+  faults:[
+    {text:"⚙️ Se cala el motor"},
+    {text:"🦶 Mal control del embrague"},
+    {text:"🦶 Pisa el embrague demasiado pronto"},
+    {text:"🚗 Acelera demasiado al salir"},
+    {text:"🛑 Frena demasiado brusco"},
+    {text:"⚙️ Lleva una marcha demasiado larga"},
+    {text:"⚙️ Lleva una marcha demasiado corta"},
+    {text:"⚙️ Tarda en cambiar de marcha"},
+    {text:"👐 Mala colocación de las manos"},
+    {text:"🛞 Mal control del volante"},
+    {text:"👣 Confunde los pedales"}
   ]
-
 },
-
-
-
-/* =================================================
-   OBSERVACIÓN
-================================================= */
 
 observacion: {
-
-  title: "👀 Observación",
-
-  faults: [
-
-    {
-      text: "🪞 No mira los espejos"
-    },
-
-    {
-      text: "👀 Mira demasiado tarde"
-    },
-
-    {
-      text: "↔️ No mira antes de cambiar de carril"
-    },
-
-    {
-      text: "🚘 No mira antes de incorporarse"
-    },
-
-    {
-      text: "🔄 No observa bien en la glorieta"
-    },
-
-    {
-      text: "➕ No observa bien en la intersección"
-    },
-
-    {
-      text: "🚶 No observa a los peatones"
-    },
-
-    {
-      text: "🅿️ No observa al maniobrar"
-    }
-
+  title:"👀 Observación",
+  faults:[
+    {text:"🪞 No mira los espejos"},
+    {text:"👀 Mira demasiado tarde"},
+    {text:"↔️ No mira antes de cambiar de carril"},
+    {text:"🚘 No mira antes de incorporarse"},
+    {text:"🔄 No observa bien en la glorieta"},
+    {text:"➕ No observa bien en la intersección"},
+    {text:"🚶 No observa a los peatones"},
+    {text:"🅿️ No observa al maniobrar"}
   ]
-
 },
 
-
-
-/* =================================================
-   OTROS
-================================================= */
-
 otros: {
-
-  title: "⚠️ Otros",
-
-  faults: [
-
-    {
-      text: "🚦 No respeta un semáforo"
-    },
-
-    {
-      text: "🛑 No respeta una señal"
-    },
-
-    {
-      text: "⬅️ Se mete en dirección prohibida"
-    },
-
-    {
-      text: "💡 No lleva las luces cuando debe"
-    },
-
-    {
-      text: "💡 Usa mal las luces"
-    },
-
-    {
-      text: "🚲 No deja suficiente espacio a un ciclista"
-    },
-
-    {
-      text: "🚌 No facilita una incorporación"
-    },
-
-    {
-      text: "🚧 No reacciona bien ante un obstáculo"
-    },
-
-    {
-      text: "⚠️ Provoca que otro vehículo tenga que frenar o esquivar"
-    },
-
-    {
-      text: "🛑 Intervención del profesor"
-    }
-
+  title:"⚠️ Otros",
+  faults:[
+    {text:"🚦 No respeta un semáforo"},
+    {text:"🛑 No respeta una señal"},
+    {text:"⬅️ Se mete en dirección prohibida"},
+    {text:"💡 No lleva las luces cuando debe"},
+    {text:"💡 Usa mal las luces"},
+    {text:"🚲 No deja suficiente espacio a un ciclista"},
+    {text:"🚌 No facilita una incorporación"},
+    {text:"🚧 No reacciona bien ante un obstáculo"},
+    {text:"⚠️ Provoca que otro vehículo tenga que frenar o esquivar"},
+    {text:"🛑 Intervención del profesor"}
   ]
-
 }
 
 };
 
+
+/* =================================================
+   CONTROL DE LOS CAMPOS DE KM
+================================================= */
+
+function onlySixDigits(input){
+
+  /*
+    Elimina cualquier carácter que no sea número
+    y limita el contenido a 6 dígitos.
+  */
+
+  input.value =
+    input.value.replace(/\D/g,"").slice(0,6);
+
+}
+
+
+function validKm(value){
+
+  return /^\d{6}$/.test(value);
+
+}
 
 
 /* =================================================
@@ -1407,17 +1070,12 @@ function saveClass(){
   }
 
   const data = {
-
-    active: true,
-
-    student: currentStudent,
-
-    startTime: startTime,
-
-    incidents: incidents
-
+    active:true,
+    student:currentStudent,
+    startTime:startTime,
+    startKm:startKm,
+    incidents:incidents
   };
-
 
   try{
 
@@ -1436,7 +1094,6 @@ function saveClass(){
   }
 
 }
-
 
 
 /* =================================================
@@ -1461,49 +1118,66 @@ function clearSavedClass(){
 }
 
 
-
 /* =================================================
    INICIAR CLASE
 ================================================= */
 
 function startClass(){
 
-  const input =
+  const studentInput =
     document.getElementById("studentInput");
 
+  const kmInput =
+    document.getElementById("startKmInput");
+
+  const error =
+    document.getElementById("startError");
 
   const name =
-    input.value.trim();
+    studentInput.value.trim();
+
+  const km =
+    kmInput.value.trim();
+
+
+  error.classList.add("hidden");
 
 
   if(!name){
 
-    alert("Introduce el nombre del alumno.");
+    error.textContent =
+      "Introduce el nombre del alumno.";
 
-    input.focus();
+    error.classList.remove("hidden");
+
+    studentInput.focus();
 
     return;
 
   }
 
 
-  currentStudent =
-    name;
+  if(!validKm(km)){
+
+    error.textContent =
+      "Introduce exactamente los 6 dígitos de los kilómetros iniciales.";
+
+    error.classList.remove("hidden");
+
+    kmInput.focus();
+
+    return;
+
+  }
 
 
-  /*
-    Guardamos la hora REAL de inicio.
+  currentStudent = name;
 
-    Date.now() devuelve los milisegundos
-    transcurridos desde 1970.
+  startKm = km;
 
-    Ya no necesitamos sumar segundos
-    manualmente.
-  */
+  endKm = "";
 
-  startTime =
-    Date.now();
-
+  startTime = Date.now();
 
   incidents = [];
 
@@ -1511,70 +1185,47 @@ function startClass(){
   document.getElementById("studentName").textContent =
     currentStudent;
 
+  document.getElementById("startKmDisplay").textContent =
+    startKm + " km";
 
   document.getElementById("timer").textContent =
     "00:00";
 
-
   document.getElementById("startScreen")
     .classList.add("hidden");
-
 
   document.getElementById("evaluationScreen")
     .classList.remove("hidden");
 
-
   document.getElementById("recoveryMessage")
     .classList.add("hidden");
 
-
   renderIncidents();
 
-
   saveClass();
-
 
   startTimer();
 
 }
 
 
-
 /* =================================================
-   CRONÓMETRO BASADO EN HORA REAL
+   CRONÓMETRO REAL
 ================================================= */
 
 function startTimer(){
 
   if(timerInterval){
-
     clearInterval(timerInterval);
-
   }
-
-
-  /*
-    Actualizamos inmediatamente para evitar
-    esperar al primer intervalo.
-  */
 
   updateTimer();
 
-
   timerInterval =
-    setInterval(function(){
-
-      updateTimer();
-
-    },1000);
+    setInterval(updateTimer,1000);
 
 }
 
-
-
-/* =================================================
-   ACTUALIZAR CRONÓMETRO
-================================================= */
 
 function updateTimer(){
 
@@ -1582,30 +1233,14 @@ function updateTimer(){
     return;
   }
 
-
-  /*
-    Calculamos SIEMPRE:
-
-    hora actual - hora de inicio.
-
-    Por tanto, aunque Safari haya estado
-    suspendido durante 20 minutos, cuando
-    vuelva a ejecutarse aparecerán esos
-    20 minutos automáticamente.
-  */
-
   const elapsedMilliseconds =
     Date.now() - startTime;
-
 
   const elapsedSeconds =
     Math.max(
       0,
-      Math.floor(
-        elapsedMilliseconds / 1000
-      )
+      Math.floor(elapsedMilliseconds / 1000)
     );
-
 
   document.getElementById("timer").textContent =
     formatTime(elapsedSeconds);
@@ -1613,22 +1248,13 @@ function updateTimer(){
 }
 
 
-
-/* =================================================
-   FORMATO TIEMPO
-================================================= */
-
 function formatTime(totalSeconds){
 
   const hours =
     Math.floor(totalSeconds / 3600);
 
-
   const minutes =
-    Math.floor(
-      (totalSeconds % 3600) / 60
-    );
-
+    Math.floor((totalSeconds % 3600) / 60);
 
   const secs =
     totalSeconds % 60;
@@ -1656,59 +1282,45 @@ function formatTime(totalSeconds){
 }
 
 
-
 /* =================================================
    ABRIR CATEGORÍA
 ================================================= */
 
 function openCategory(key){
 
-  currentCategory =
-    key;
-
+  currentCategory = key;
 
   const category =
     categories[key];
 
-
   document.getElementById("categoryScreen")
     .classList.add("hidden");
-
 
   document.getElementById("faultScreen")
     .classList.remove("hidden");
 
-
   document.getElementById("categoryTitle").textContent =
     category.title;
-
 
   const container =
     document.getElementById("faultOptions");
 
-
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
 
   category.faults.forEach(function(fault){
 
-
     const button =
       document.createElement("button");
-
 
     button.className =
       "fault-button";
 
-
     button.textContent =
       fault.text;
 
-
     button.onclick =
       function(){
-
 
         if(fault.details){
 
@@ -1726,13 +1338,11 @@ function openCategory(key){
 
       };
 
-
     container.appendChild(button);
 
   });
 
 }
-
 
 
 /* =================================================
@@ -1744,37 +1354,28 @@ function openDetails(fault){
   document.getElementById("faultScreen")
     .classList.add("hidden");
 
-
   document.getElementById("detailScreen")
     .classList.remove("hidden");
-
 
   document.getElementById("detailTitle").textContent =
     fault.text;
 
-
   const container =
     document.getElementById("detailOptions");
 
-
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
 
   fault.details.forEach(function(detail){
 
-
     const button =
       document.createElement("button");
-
 
     button.className =
       "choice-button";
 
-
     button.textContent =
       detail;
-
 
     button.onclick =
       function(){
@@ -1787,13 +1388,11 @@ function openDetails(fault){
 
       };
 
-
     container.appendChild(button);
 
   });
 
 }
-
 
 
 /* =================================================
@@ -1805,10 +1404,8 @@ function backToCategories(){
   document.getElementById("faultScreen")
     .classList.add("hidden");
 
-
   document.getElementById("detailScreen")
     .classList.add("hidden");
-
 
   document.getElementById("categoryScreen")
     .classList.remove("hidden");
@@ -1816,18 +1413,15 @@ function backToCategories(){
 }
 
 
-
 function backToFaults(){
 
   document.getElementById("detailScreen")
     .classList.add("hidden");
 
-
   document.getElementById("faultScreen")
     .classList.remove("hidden");
 
 }
-
 
 
 /* =================================================
@@ -1836,14 +1430,7 @@ function backToFaults(){
 
 function registerIncident(category,text,detail){
 
-  /*
-    Antes de registrar actualizamos el tiempo
-    real por si Safari acaba de volver del
-    segundo plano.
-  */
-
   updateTimer();
-
 
   const cleanText =
     text.replace(
@@ -1854,11 +1441,11 @@ function registerIncident(category,text,detail){
 
   incidents.push({
 
-    category: category,
+    category:category,
 
-    text: cleanText,
+    text:cleanText,
 
-    detail: detail,
+    detail:detail,
 
     time:
       document.getElementById("timer").textContent
@@ -1866,15 +1453,7 @@ function registerIncident(category,text,detail){
   });
 
 
-  /*
-    Guardamos inmediatamente.
-
-    Así, cada vez que registramos un fallo,
-    queda almacenado en el dispositivo.
-  */
-
   saveClass();
-
 
   renderIncidents();
 
@@ -1882,10 +1461,8 @@ function registerIncident(category,text,detail){
   document.getElementById("detailScreen")
     .classList.add("hidden");
 
-
   document.getElementById("faultScreen")
     .classList.add("hidden");
-
 
   document.getElementById("categoryScreen")
     .classList.remove("hidden");
@@ -1898,7 +1475,6 @@ function registerIncident(category,text,detail){
 }
 
 
-
 /* =================================================
    DESHACER
 ================================================= */
@@ -1906,31 +1482,20 @@ function registerIncident(category,text,detail){
 function undoLast(){
 
   if(incidents.length === 0){
-
     return;
-
   }
-
 
   incidents.pop();
 
-
-  /*
-    También actualizamos la copia guardada.
-  */
-
   saveClass();
 
-
   renderIncidents();
-
 
   showToast(
     "↩️ Último fallo eliminado"
   );
 
 }
-
 
 
 /* =================================================
@@ -1942,10 +1507,8 @@ function renderIncidents(){
   const container =
     document.getElementById("incidentList");
 
-
   const total =
     document.getElementById("totalIncidents");
-
 
   const undo =
     document.getElementById("undoButton");
@@ -1953,7 +1516,6 @@ function renderIncidents(){
 
   total.textContent =
     incidents.length;
-
 
   undo.disabled =
     incidents.length === 0;
@@ -1969,14 +1531,8 @@ function renderIncidents(){
   }
 
 
-  container.innerHTML =
-    "";
+  container.innerHTML = "";
 
-
-  /*
-    Mostramos solamente los últimos 5
-    durante la clase.
-  */
 
   const recent =
     incidents.slice(-5).reverse();
@@ -1984,18 +1540,14 @@ function renderIncidents(){
 
   recent.forEach(function(incident){
 
-
     const div =
       document.createElement("div");
-
 
     div.className =
       "incident";
 
-
     let text =
       incident.text;
-
 
     if(incident.detail){
 
@@ -2012,13 +1564,11 @@ function renderIncidents(){
       "</span>" +
       text;
 
-
     container.appendChild(div);
 
   });
 
 }
-
 
 
 /* =================================================
@@ -2030,10 +1580,8 @@ function showToast(message){
   const toast =
     document.getElementById("toast");
 
-
   toast.textContent =
     message;
-
 
   toast.classList.remove("hidden");
 
@@ -2047,16 +1595,123 @@ function showToast(message){
 }
 
 
+/* =================================================
+   ABRIR PANTALLA KM FINALES
+================================================= */
+
+function openFinishScreen(){
+
+  updateTimer();
+
+  document.getElementById("finishStudent").textContent =
+    currentStudent;
+
+  document.getElementById("finishStartKm").textContent =
+    startKm + " km";
+
+  document.getElementById("finishDuration").textContent =
+    document.getElementById("timer").textContent;
+
+  document.getElementById("endKmInput").value =
+    "";
+
+  document.getElementById("endError")
+    .classList.add("hidden");
+
+
+  /*
+    NO detenemos todavía el cronómetro.
+
+    La clase solamente termina cuando
+    se confirman los kilómetros finales.
+  */
+
+  document.getElementById("evaluationScreen")
+    .classList.add("hidden");
+
+  document.getElementById("finishScreen")
+    .classList.remove("hidden");
+
+
+  setTimeout(function(){
+
+    document.getElementById("endKmInput").focus();
+
+  },100);
+
+}
+
 
 /* =================================================
-   FINALIZAR
+   VOLVER A LA CLASE
+================================================= */
+
+function cancelFinish(){
+
+  document.getElementById("finishScreen")
+    .classList.add("hidden");
+
+  document.getElementById("evaluationScreen")
+    .classList.remove("hidden");
+
+  updateTimer();
+
+}
+
+
+/* =================================================
+   FINALIZAR CLASE
 ================================================= */
 
 function finishClass(){
 
+  const input =
+    document.getElementById("endKmInput");
+
+  const error =
+    document.getElementById("endError");
+
+  const km =
+    input.value.trim();
+
+
+  error.classList.add("hidden");
+
+
+  if(!validKm(km)){
+
+    error.textContent =
+      "Introduce exactamente los 6 dígitos de los kilómetros finales.";
+
+    error.classList.remove("hidden");
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  if(Number(km) < Number(startKm)){
+
+    error.textContent =
+      "Los kilómetros finales no pueden ser inferiores a los kilómetros iniciales.";
+
+    error.classList.remove("hidden");
+
+    input.focus();
+
+    return;
+
+  }
+
+
+  endKm = km;
+
+
   /*
-    Actualizamos una última vez antes de
-    detener el cronómetro.
+    Actualizamos el tiempo justo en el momento
+    de confirmar el final de la clase.
   */
 
   updateTimer();
@@ -2076,27 +1731,25 @@ function finishClass(){
 
 
   /*
-    La clase ya está terminada.
-
-    Ahora sí eliminamos la copia temporal.
+    Solo ahora eliminamos la copia temporal.
   */
 
   clearSavedClass();
 
 
+  document.getElementById("finishScreen")
+    .classList.add("hidden");
+
   document.getElementById("evaluationScreen")
     .classList.add("hidden");
 
-
   document.getElementById("summaryScreen")
     .classList.remove("hidden");
-
 
   document.getElementById("summaryText").textContent =
     summary;
 
 }
-
 
 
 /* =================================================
@@ -2105,21 +1758,33 @@ function finishClass(){
 
 function buildSummary(){
 
-  const name =
-    currentStudent;
-
-
   const duration =
     document.getElementById("timer").textContent;
+
+  const distance =
+    Number(endKm) - Number(startKm);
 
 
   let summary =
     "Alumno: " +
-    name +
+    currentStudent +
     "\n" +
+
     "Duración de la clase: " +
     duration +
-    "\n\n";
+    "\n" +
+
+    "Kilómetros iniciales: " +
+    startKm +
+    "\n" +
+
+    "Kilómetros finales: " +
+    endKm +
+    "\n" +
+
+    "Kilómetros realizados: " +
+    distance +
+    " km\n\n";
 
 
   if(incidents.length === 0){
@@ -2136,25 +1801,13 @@ function buildSummary(){
     "FALLOS REGISTRADOS\n\n";
 
 
-  /*
-    Agrupamos:
-
-    categoría + fallo + detalle
-
-    Si se registra el mismo fallo varias veces
-    aparecerá ×2, ×3...
-  */
-
-  const grouped =
-    {};
+  const grouped = {};
 
 
   incidents.forEach(function(incident){
 
-
     const category =
       incident.category;
-
 
     const key =
       incident.text +
@@ -2164,8 +1817,7 @@ function buildSummary(){
 
     if(!grouped[category]){
 
-      grouped[category] =
-        {};
+      grouped[category] = {};
 
     }
 
@@ -2174,14 +1826,11 @@ function buildSummary(){
 
       grouped[category][key] = {
 
-        text:
-          incident.text,
+        text:incident.text,
 
-        detail:
-          incident.detail,
+        detail:incident.detail,
 
-        count:
-          0
+        count:0
 
       };
 
@@ -2193,9 +1842,7 @@ function buildSummary(){
   });
 
 
-
   Object.keys(grouped).forEach(function(category){
-
 
     summary +=
       category +
@@ -2205,7 +1852,6 @@ function buildSummary(){
     Object.values(
       grouped[category]
     ).forEach(function(item){
-
 
       summary +=
         "• " +
@@ -2230,14 +1876,12 @@ function buildSummary(){
       }
 
 
-      summary +=
-        "\n";
+      summary += "\n";
 
     });
 
 
-    summary +=
-      "\n";
+    summary += "\n";
 
   });
 
@@ -2250,7 +1894,6 @@ function buildSummary(){
   return summary.trim();
 
 }
-
 
 
 /* =================================================
@@ -2267,36 +1910,25 @@ async function copySummary(){
 
     await navigator.clipboard.writeText(text);
 
-
     showToast(
       "✓ Resumen copiado"
     );
 
-
   }catch(error){
-
 
     const area =
       document.createElement("textarea");
 
-
     area.value =
       text;
 
-
     document.body.appendChild(area);
-
 
     area.select();
 
-
-    document.execCommand(
-      "copy"
-    );
-
+    document.execCommand("copy");
 
     document.body.removeChild(area);
-
 
     showToast(
       "✓ Resumen copiado"
@@ -2305,7 +1937,6 @@ async function copySummary(){
   }
 
 }
-
 
 
 /* =================================================
@@ -2318,34 +1949,29 @@ function newClass(){
 
     clearInterval(timerInterval);
 
-    timerInterval =
-      null;
+    timerInterval = null;
 
   }
 
 
   clearSavedClass();
 
-
-  startTime =
-    null;
-
-
-  incidents =
-    [];
-
-
-  currentCategory =
-    null;
-
-
-  currentStudent =
-    "";
+  startTime = null;
+  incidents = [];
+  currentCategory = null;
+  currentStudent = "";
+  startKm = "";
+  endKm = "";
 
 
   document.getElementById("studentInput").value =
     "";
 
+  document.getElementById("startKmInput").value =
+    "";
+
+  document.getElementById("endKmInput").value =
+    "";
 
   document.getElementById("timer").textContent =
     "00:00";
@@ -2354,38 +1980,39 @@ function newClass(){
   document.getElementById("summaryScreen")
     .classList.add("hidden");
 
+  document.getElementById("finishScreen")
+    .classList.add("hidden");
 
   document.getElementById("evaluationScreen")
     .classList.add("hidden");
 
-
   document.getElementById("startScreen")
     .classList.remove("hidden");
-
 
   document.getElementById("categoryScreen")
     .classList.remove("hidden");
 
-
   document.getElementById("faultScreen")
     .classList.add("hidden");
-
 
   document.getElementById("detailScreen")
     .classList.add("hidden");
 
-
   document.getElementById("recoveryMessage")
+    .classList.add("hidden");
+
+  document.getElementById("startError")
+    .classList.add("hidden");
+
+  document.getElementById("endError")
     .classList.add("hidden");
 
 
   renderIncidents();
 
-
   document.getElementById("studentInput").focus();
 
 }
-
 
 
 /* =================================================
@@ -2400,29 +2027,16 @@ function recoverClass(){
   try{
 
     const raw =
-      localStorage.getItem(
-        STORAGE_KEY
-      );
-
+      localStorage.getItem(STORAGE_KEY);
 
     if(!raw){
-
       return false;
-
     }
-
 
     savedData =
       JSON.parse(raw);
 
-
   }catch(error){
-
-    /*
-      Si los datos estuvieran dañados,
-      eliminamos la copia y arrancamos
-      normalmente.
-    */
 
     clearSavedClass();
 
@@ -2431,12 +2045,12 @@ function recoverClass(){
   }
 
 
-
   if(
     !savedData ||
     !savedData.active ||
     !savedData.student ||
-    !savedData.startTime
+    !savedData.startTime ||
+    !savedData.startKm
   ){
 
     clearSavedClass();
@@ -2449,17 +2063,14 @@ function recoverClass(){
   currentStudent =
     savedData.student;
 
-
   startTime =
-    Number(
-      savedData.startTime
-    );
+    Number(savedData.startTime);
 
+  startKm =
+    String(savedData.startKm);
 
   incidents =
-    Array.isArray(
-      savedData.incidents
-    )
+    Array.isArray(savedData.incidents)
       ? savedData.incidents
       : [];
 
@@ -2467,26 +2078,27 @@ function recoverClass(){
   document.getElementById("studentName").textContent =
     currentStudent;
 
+  document.getElementById("startKmDisplay").textContent =
+    startKm + " km";
+
 
   document.getElementById("startScreen")
     .classList.add("hidden");
 
-
   document.getElementById("summaryScreen")
     .classList.add("hidden");
 
+  document.getElementById("finishScreen")
+    .classList.add("hidden");
 
   document.getElementById("evaluationScreen")
     .classList.remove("hidden");
 
-
   document.getElementById("categoryScreen")
     .classList.remove("hidden");
 
-
   document.getElementById("faultScreen")
     .classList.add("hidden");
-
 
   document.getElementById("detailScreen")
     .classList.add("hidden");
@@ -2494,34 +2106,20 @@ function recoverClass(){
 
   renderIncidents();
 
-
   updateTimer();
-
 
   startTimer();
 
 
-  /*
-    Avisamos discretamente de que la
-    recuperación ha funcionado.
-  */
-
   const message =
-    document.getElementById(
-      "recoveryMessage"
-    );
+    document.getElementById("recoveryMessage");
 
-
-  message.classList.remove(
-    "hidden"
-  );
+  message.classList.remove("hidden");
 
 
   setTimeout(function(){
 
-    message.classList.add(
-      "hidden"
-    );
+    message.classList.add("hidden");
 
   },2500);
 
@@ -2531,18 +2129,9 @@ function recoverClass(){
 }
 
 
-
 /* =================================================
-   CUANDO VOLVEMOS A SAFARI
+   VOLVER DESDE SEGUNDO PLANO
 ================================================= */
-
-/*
-  Este evento es especialmente importante
-  en iPhone/iPad.
-
-  Cuando Safari vuelve a estar visible,
-  recalculamos inmediatamente el tiempo.
-*/
 
 document.addEventListener(
   "visibilitychange",
@@ -2561,12 +2150,6 @@ document.addEventListener(
 );
 
 
-
-/*
-  También recalculamos si la ventana
-  recupera el foco.
-*/
-
 window.addEventListener(
   "focus",
   function(){
@@ -2581,15 +2164,9 @@ window.addEventListener(
 );
 
 
-
 /* =================================================
-   ARRANQUE DE LA WEB
+   ARRANQUE
 ================================================= */
-
-/*
-  Nada más abrir la página comprobamos
-  si existe una clase sin finalizar.
-*/
 
 window.addEventListener(
   "DOMContentLoaded",
@@ -2599,7 +2176,6 @@ window.addEventListener(
 
   }
 );
-
 
 </script>
 
