@@ -79,6 +79,10 @@ button {
     touch-action: manipulation;
 }
 
+button:disabled {
+    opacity: .85;
+}
+
 .primary {
     width: 100%;
     background: #2563eb;
@@ -121,7 +125,8 @@ button {
 }
 
 .category:active,
-.option:active {
+.option:active,
+.subcategory:active {
     transform: scale(.98);
 }
 
@@ -209,6 +214,8 @@ button {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    user-select: text;
+    -webkit-user-select: text;
 }
 
 .hidden {
@@ -359,7 +366,11 @@ footer {
 
             <div id="teacherReport" class="report"></div>
 
-            <button class="copy" onclick="copyTeacherReport()">
+            <button
+                id="copyTeacherButton"
+                class="copy"
+                onclick="copyTeacherReport(this)"
+            >
                 📋 Copiar informe completo
             </button>
         </div>
@@ -373,7 +384,11 @@ footer {
 
             <div id="studentReport" class="report"></div>
 
-            <button class="copy" onclick="copyStudentReport()">
+            <button
+                id="copyStudentButton"
+                class="copy"
+                onclick="copyStudentReport(this)"
+            >
                 👤 Copiar informe del alumno
             </button>
         </div>
@@ -387,12 +402,12 @@ footer {
 </div>
 
 <footer>
-    Registro de clase · Versión 0.8
+    Registro de clase · Versión 0.8.1
 </footer>
 
 <script>
 
-const STORAGE_KEY = "registroClaseActiva_v080";
+const STORAGE_KEY = "registroClaseActiva_v081";
 
 let classData = {
     student: "",
@@ -405,6 +420,7 @@ let classData = {
 let timerInterval = null;
 let teacherReportText = "";
 let studentReportText = "";
+
 
 /* =====================================================
    CATÁLOGO
@@ -471,6 +487,7 @@ const catalog = {
     ],
 
     "🛣️ Autovía": {
+
         "➡️ Incorporación": [
             "No observa correctamente",
             "No pone el intermitente",
@@ -724,25 +741,33 @@ const contexts = [
     "Provocando peligro"
 ];
 
+
 /* =====================================================
    INICIO DE CLASE
 ===================================================== */
 
 function startClass() {
 
-    const student = document.getElementById("studentName").value.trim();
-    const km = document.getElementById("initialKm").value.trim();
-    const error = document.getElementById("startError");
+    const student =
+        document.getElementById("studentName").value.trim();
+
+    const km =
+        document.getElementById("initialKm").value.trim();
+
+    const error =
+        document.getElementById("startError");
 
     error.textContent = "";
 
     if (!student) {
-        error.textContent = "Introduce el nombre del alumno.";
+        error.textContent =
+            "Introduce el nombre del alumno.";
         return;
     }
 
     if (!/^\d{6}$/.test(km)) {
-        error.textContent = "Los kilómetros iniciales deben tener exactamente 6 cifras.";
+        error.textContent =
+            "Los kilómetros iniciales deben tener exactamente 6 cifras.";
         return;
     }
 
@@ -758,30 +783,49 @@ function startClass() {
 
     saveSession();
 
-    document.getElementById("startScreen").classList.add("hidden");
-    document.getElementById("classScreen").classList.remove("hidden");
+    document
+        .getElementById("startScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("classScreen")
+        .classList.remove("hidden");
 
     updateActiveInfo();
     renderCategories();
     updateRecent();
     updateTimer();
 
-    timerInterval = setInterval(updateTimer, 1000);
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
 
-    document.getElementById("headerStatus").textContent = "Clase en curso";
+    timerInterval =
+        setInterval(updateTimer, 1000);
+
+    document.getElementById("headerStatus").textContent =
+        "Clase en curso";
 }
+
 
 /* =====================================================
    FECHA
 ===================================================== */
 
 function formatDate(date) {
-    const d = String(date.getDate()).padStart(2, "0");
-    const m = String(date.getMonth() + 1).padStart(2, "0");
-    const y = date.getFullYear();
+
+    const d =
+        String(date.getDate()).padStart(2, "0");
+
+    const m =
+        String(date.getMonth() + 1).padStart(2, "0");
+
+    const y =
+        date.getFullYear();
 
     return `${d}/${m}/${y}`;
 }
+
 
 /* =====================================================
    CRONÓMETRO
@@ -791,26 +835,38 @@ function updateTimer() {
 
     if (!classData.startTime) return;
 
-    const elapsed = Math.max(
-        0,
-        Math.floor((Date.now() - classData.startTime) / 1000)
-    );
+    const elapsed =
+        Math.max(
+            0,
+            Math.floor(
+                (Date.now() - classData.startTime) / 1000
+            )
+        );
 
-    document.getElementById("timer").textContent = formatDuration(elapsed);
+    document.getElementById("timer").textContent =
+        formatDuration(elapsed);
 }
 
 function formatDuration(totalSeconds) {
 
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
+    const hours =
+        Math.floor(totalSeconds / 3600);
+
+    const minutes =
+        Math.floor((totalSeconds % 3600) / 60);
+
+    const seconds =
+        totalSeconds % 60;
 
     return [
         hours,
         minutes,
         seconds
-    ].map(v => String(v).padStart(2, "0")).join(":");
+    ]
+    .map(v => String(v).padStart(2, "0"))
+    .join(":");
 }
+
 
 /* =====================================================
    INFORMACIÓN ACTIVA
@@ -824,23 +880,28 @@ function updateActiveInfo() {
         `Km iniciales: ${classData.initialKm}`;
 }
 
+
 /* =====================================================
    CATEGORÍAS
 ===================================================== */
 
 function renderCategories() {
 
-    const grid = document.getElementById("categoryGrid");
+    const grid =
+        document.getElementById("categoryGrid");
+
     grid.innerHTML = "";
 
     Object.keys(catalog).forEach(category => {
 
-        const button = document.createElement("button");
+        const button =
+            document.createElement("button");
 
         button.className = "category";
         button.textContent = category;
 
-        button.onclick = () => openCategory(category);
+        button.onclick =
+            () => openCategory(category);
 
         grid.appendChild(button);
     });
@@ -848,9 +909,15 @@ function renderCategories() {
 
 function showCategories() {
 
-    document.getElementById("categoryArea").classList.remove("hidden");
-    document.getElementById("optionArea").classList.add("hidden");
+    document
+        .getElementById("categoryArea")
+        .classList.remove("hidden");
+
+    document
+        .getElementById("optionArea")
+        .classList.add("hidden");
 }
+
 
 /* =====================================================
    ABRIR CATEGORÍA
@@ -858,62 +925,95 @@ function showCategories() {
 
 function openCategory(category) {
 
-    const data = catalog[category];
+    const data =
+        catalog[category];
 
-    document.getElementById("categoryArea").classList.add("hidden");
-    document.getElementById("optionArea").classList.remove("hidden");
+    document
+        .getElementById("categoryArea")
+        .classList.add("hidden");
 
-    document.getElementById("optionTitle").textContent = category;
+    document
+        .getElementById("optionArea")
+        .classList.remove("hidden");
 
-    const list = document.getElementById("optionList");
+    document.getElementById("optionTitle").textContent =
+        category;
+
+    const list =
+        document.getElementById("optionList");
+
     list.innerHTML = "";
 
     if (Array.isArray(data)) {
 
-        renderFaultOptions(category, null, data);
+        renderFaultOptions(
+            category,
+            null,
+            data
+        );
 
     } else {
 
         Object.keys(data).forEach(subcategory => {
 
-            const button = document.createElement("button");
+            const button =
+                document.createElement("button");
 
             button.className = "subcategory";
             button.textContent = subcategory;
 
-            button.onclick = () =>
-                openSubcategory(category, subcategory);
+            button.onclick =
+                () => openSubcategory(
+                    category,
+                    subcategory
+                );
 
             list.appendChild(button);
         });
     }
 }
 
+
 /* =====================================================
    SUBCATEGORÍAS
 ===================================================== */
 
-function openSubcategory(category, subcategory) {
+function openSubcategory(
+    category,
+    subcategory
+) {
 
-    const options = catalog[category][subcategory];
+    const options =
+        catalog[category][subcategory];
 
     document.getElementById("optionTitle").textContent =
         `${category} · ${subcategory}`;
 
-    const list = document.getElementById("optionList");
+    const list =
+        document.getElementById("optionList");
+
     list.innerHTML = "";
 
-    const backButton = document.createElement("button");
+    const backButton =
+        document.createElement("button");
 
     backButton.className = "back";
-    backButton.textContent = "← Volver a " + category;
+    backButton.textContent =
+        "← Volver a " + category;
 
-    backButton.onclick = () => openCategory(category);
+    backButton.onclick =
+        () => openCategory(category);
 
     list.appendChild(backButton);
 
-    renderFaultOptions(category, subcategory, options, list);
+    renderFaultOptions(
+        category,
+        subcategory,
+        options,
+        list
+    );
 }
+
 
 /* =====================================================
    OPCIONES DE FALLO
@@ -926,11 +1026,14 @@ function renderFaultOptions(
     target = null
 ) {
 
-    const list = target || document.getElementById("optionList");
+    const list =
+        target ||
+        document.getElementById("optionList");
 
     options.forEach(option => {
 
-        const button = document.createElement("button");
+        const button =
+            document.createElement("button");
 
         button.className = "option";
 
@@ -946,8 +1049,8 @@ function renderFaultOptions(
             option.context
         ) {
 
-            button.onclick = () =>
-                showContextOptions(
+            button.onclick =
+                () => showContextOptions(
                     category,
                     subcategory,
                     text
@@ -955,8 +1058,8 @@ function renderFaultOptions(
 
         } else {
 
-            button.onclick = () =>
-                addIncident(
+            button.onclick =
+                () => addIncident(
                     category,
                     subcategory,
                     text
@@ -966,6 +1069,7 @@ function renderFaultOptions(
         list.appendChild(button);
     });
 }
+
 
 /* =====================================================
    CONTEXTO
@@ -977,12 +1081,16 @@ function showContextOptions(
     fault
 ) {
 
-    document.getElementById("optionTitle").textContent = fault;
+    document.getElementById("optionTitle").textContent =
+        fault;
 
-    const list = document.getElementById("optionList");
+    const list =
+        document.getElementById("optionList");
+
     list.innerHTML = "";
 
-    const backButton = document.createElement("button");
+    const backButton =
+        document.createElement("button");
 
     backButton.className = "back";
     backButton.textContent = "← Volver";
@@ -990,7 +1098,10 @@ function showContextOptions(
     backButton.onclick = () => {
 
         if (subcategory) {
-            openSubcategory(category, subcategory);
+            openSubcategory(
+                category,
+                subcategory
+            );
         } else {
             openCategory(category);
         }
@@ -1000,13 +1111,14 @@ function showContextOptions(
 
     contexts.forEach(context => {
 
-        const button = document.createElement("button");
+        const button =
+            document.createElement("button");
 
         button.className = "option";
         button.textContent = context;
 
-        button.onclick = () =>
-            addIncident(
+        button.onclick =
+            () => addIncident(
                 category,
                 subcategory,
                 fault,
@@ -1016,6 +1128,7 @@ function showContextOptions(
         list.appendChild(button);
     });
 }
+
 
 /* =====================================================
    REGISTRAR FALLO
@@ -1038,9 +1151,9 @@ function addIncident(
 
     saveSession();
     updateRecent();
-
     showCategories();
 }
+
 
 /* =====================================================
    ÚLTIMOS FALLOS
@@ -1048,7 +1161,8 @@ function addIncident(
 
 function updateRecent() {
 
-    const list = document.getElementById("recentList");
+    const list =
+        document.getElementById("recentList");
 
     list.innerHTML = "";
 
@@ -1067,39 +1181,51 @@ function updateRecent() {
         return;
     }
 
-    const recent = classData.incidents.slice(-6).reverse();
+    const recent =
+        classData.incidents
+            .slice(-6)
+            .reverse();
 
     recent.forEach(incident => {
 
         const realIndex =
             classData.incidents.indexOf(incident);
 
-        const div = document.createElement("div");
+        const div =
+            document.createElement("div");
 
         div.className = "incident";
 
-        let text = `<strong>${escapeHtml(incident.category)}</strong>`;
+        let text =
+            `<strong>${escapeHtml(incident.category)}</strong>`;
 
         if (incident.subcategory) {
-            text += ` · ${escapeHtml(incident.subcategory)}`;
+            text +=
+                ` · ${escapeHtml(incident.subcategory)}`;
         }
 
-        text += `<br>${escapeHtml(incident.fault)}`;
+        text +=
+            `<br>${escapeHtml(incident.fault)}`;
 
         if (incident.context) {
-            text += ` — ${escapeHtml(incident.context)}`;
+            text +=
+                ` — ${escapeHtml(incident.context)}`;
         }
 
-        const textDiv = document.createElement("div");
+        const textDiv =
+            document.createElement("div");
+
         textDiv.className = "incidentText";
         textDiv.innerHTML = text;
 
-        const deleteButton = document.createElement("button");
+        const deleteButton =
+            document.createElement("button");
+
         deleteButton.className = "deleteBtn";
         deleteButton.textContent = "✕";
 
-        deleteButton.onclick = () =>
-            deleteIncident(realIndex);
+        deleteButton.onclick =
+            () => deleteIncident(realIndex);
 
         div.appendChild(textDiv);
         div.appendChild(deleteButton);
@@ -1116,14 +1242,20 @@ function deleteIncident(index) {
     updateRecent();
 }
 
+
 /* =====================================================
    FINALIZACIÓN
 ===================================================== */
 
 function openFinishScreen() {
 
-    document.getElementById("classScreen").classList.add("hidden");
-    document.getElementById("finishScreen").classList.remove("hidden");
+    document
+        .getElementById("classScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("finishScreen")
+        .classList.remove("hidden");
 
     document.getElementById("finishInfo").innerHTML =
         `<p><strong>${escapeHtml(classData.student)}</strong></p>` +
@@ -1139,8 +1271,13 @@ function openFinishScreen() {
 
 function cancelFinish() {
 
-    document.getElementById("finishScreen").classList.add("hidden");
-    document.getElementById("classScreen").classList.remove("hidden");
+    document
+        .getElementById("finishScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("classScreen")
+        .classList.remove("hidden");
 
     updateTimer();
 
@@ -1151,7 +1288,10 @@ function cancelFinish() {
 function confirmFinish() {
 
     const finalKm =
-        document.getElementById("finalKm").value.trim();
+        document
+            .getElementById("finalKm")
+            .value
+            .trim();
 
     const error =
         document.getElementById("finishError");
@@ -1180,7 +1320,8 @@ function confirmFinish() {
         return;
     }
 
-    const endTime = Date.now();
+    const endTime =
+        Date.now();
 
     const durationSeconds =
         Math.max(
@@ -1190,7 +1331,10 @@ function confirmFinish() {
             )
         );
 
-    clearInterval(timerInterval);
+    if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+    }
 
     generateReports(
         finalKm,
@@ -1199,12 +1343,18 @@ function confirmFinish() {
 
     localStorage.removeItem(STORAGE_KEY);
 
-    document.getElementById("finishScreen").classList.add("hidden");
-    document.getElementById("reportScreen").classList.remove("hidden");
+    document
+        .getElementById("finishScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("reportScreen")
+        .classList.remove("hidden");
 
     document.getElementById("headerStatus").textContent =
         "Clase finalizada";
 }
+
 
 /* =====================================================
    GENERAR INFORMES
@@ -1219,7 +1369,8 @@ function generateReports(
         parseInt(finalKm, 10) -
         parseInt(classData.initialKm, 10);
 
-    const faultsText = buildFaultSummary();
+    const faultsText =
+        buildFaultSummary();
 
     teacherReportText =
 `Alumno: ${classData.student}
@@ -1252,6 +1403,7 @@ Total de fallos registrados: ${classData.incidents.length}`;
         studentReportText;
 }
 
+
 /* =====================================================
    AGRUPAR FALLOS
 ===================================================== */
@@ -1275,10 +1427,12 @@ function buildFaultSummary() {
             groups[groupKey] = {};
         }
 
-        let faultText = item.fault;
+        let faultText =
+            item.fault;
 
         if (item.context) {
-            faultText += ` — ${item.context}`;
+            faultText +=
+                ` — ${item.context}`;
         }
 
         if (!groups[groupKey][faultText]) {
@@ -1290,75 +1444,217 @@ function buildFaultSummary() {
 
     let result = "";
 
-    Object.keys(groups).forEach((group, groupIndex) => {
+    Object.keys(groups).forEach(
+        (group, groupIndex) => {
 
-        if (groupIndex > 0) {
-            result += "\n";
-        }
-
-        result += `${group}\n`;
-
-        Object.keys(groups[group]).forEach(fault => {
-
-            const count =
-                groups[group][fault];
-
-            result += `• ${fault}`;
-
-            if (count > 1) {
-                result += ` ×${count}`;
+            if (groupIndex > 0) {
+                result += "\n";
             }
 
-            result += "\n";
-        });
-    });
+            result += `${group}\n`;
+
+            Object.keys(groups[group]).forEach(
+                fault => {
+
+                    const count =
+                        groups[group][fault];
+
+                    result += `• ${fault}`;
+
+                    if (count > 1) {
+                        result += ` ×${count}`;
+                    }
+
+                    result += "\n";
+                }
+            );
+        }
+    );
 
     return result.trim();
 }
 
+
 /* =====================================================
-   COPIAR
+   COPIAR INFORMES - v0.8.1
 ===================================================== */
 
-async function copyTeacherReport() {
-    await copyText(
+function copyTeacherReport(button) {
+
+    copyReport(
         teacherReportText,
-        "Informe completo copiado."
+        button,
+        "📋 Copiar informe completo"
     );
 }
 
-async function copyStudentReport() {
-    await copyText(
+function copyStudentReport(button) {
+
+    copyReport(
         studentReportText,
-        "Informe del alumno copiado."
+        button,
+        "👤 Copiar informe del alumno"
     );
 }
 
-async function copyText(text, message) {
+async function copyReport(
+    text,
+    button,
+    originalText
+) {
+
+    if (!text) {
+        alert("No hay ningún informe para copiar.");
+        return;
+    }
+
+    let copied = false;
+
+    /*
+       PRIMER MÉTODO:
+       API moderna del portapapeles.
+       GitHub Pages utiliza HTTPS, por lo que normalmente
+       funcionará en Safari, Chrome, iPhone e iPad.
+    */
 
     try {
 
-        await navigator.clipboard.writeText(text);
-        alert(message);
+        if (
+            navigator.clipboard &&
+            window.isSecureContext
+        ) {
+
+            await navigator.clipboard.writeText(text);
+            copied = true;
+        }
 
     } catch (error) {
 
-        const textarea =
-            document.createElement("textarea");
+        copied = false;
+    }
 
-        textarea.value = text;
+    /*
+       SEGUNDO MÉTODO:
+       Compatibilidad adicional para Safari/iOS.
+    */
 
-        document.body.appendChild(textarea);
+    if (!copied) {
 
-        textarea.select();
+        try {
 
-        document.execCommand("copy");
+            copied =
+                fallbackCopy(text);
 
-        textarea.remove();
+        } catch (error) {
 
-        alert(message);
+            copied = false;
+        }
+    }
+
+    if (copied) {
+
+        button.textContent = "✅ Copiado";
+        button.disabled = true;
+
+        setTimeout(() => {
+
+            button.textContent =
+                originalText;
+
+            button.disabled = false;
+
+        }, 1500);
+
+    } else {
+
+        /*
+           Si iOS bloquea ambos métodos,
+           seleccionamos el informe para facilitar
+           la copia manual.
+        */
+
+        selectReportText(
+            button.id === "copyTeacherButton"
+                ? "teacherReport"
+                : "studentReport"
+        );
+
+        alert(
+            "No se ha podido copiar automáticamente. El informe ha quedado seleccionado para que puedas pulsar Copiar."
+        );
     }
 }
+
+
+/* =====================================================
+   COPIA COMPATIBLE SAFARI / IOS
+===================================================== */
+
+function fallbackCopy(text) {
+
+    const textarea =
+        document.createElement("textarea");
+
+    textarea.value = text;
+
+    textarea.setAttribute(
+        "readonly",
+        ""
+    );
+
+    textarea.style.position = "fixed";
+    textarea.style.top = "0";
+    textarea.style.left = "0";
+    textarea.style.width = "2px";
+    textarea.style.height = "2px";
+    textarea.style.padding = "0";
+    textarea.style.border = "0";
+    textarea.style.outline = "0";
+    textarea.style.boxShadow = "none";
+    textarea.style.background = "transparent";
+    textarea.style.opacity = "0.01";
+
+    document.body.appendChild(textarea);
+
+    textarea.focus();
+
+    textarea.setSelectionRange(
+        0,
+        textarea.value.length
+    );
+
+    const successful =
+        document.execCommand("copy");
+
+    document.body.removeChild(textarea);
+
+    return successful;
+}
+
+
+/* =====================================================
+   SELECCIÓN MANUAL DE EMERGENCIA
+===================================================== */
+
+function selectReportText(elementId) {
+
+    const element =
+        document.getElementById(elementId);
+
+    if (!element) return;
+
+    const selection =
+        window.getSelection();
+
+    const range =
+        document.createRange();
+
+    range.selectNodeContents(element);
+
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
 
 /* =====================================================
    NUEVA CLASE
@@ -1380,12 +1676,18 @@ function newClass() {
     document.getElementById("studentName").value = "";
     document.getElementById("initialKm").value = "";
 
-    document.getElementById("reportScreen").classList.add("hidden");
-    document.getElementById("startScreen").classList.remove("hidden");
+    document
+        .getElementById("reportScreen")
+        .classList.add("hidden");
+
+    document
+        .getElementById("startScreen")
+        .classList.remove("hidden");
 
     document.getElementById("headerStatus").textContent =
         "Preparado para iniciar";
 }
+
 
 /* =====================================================
    GUARDADO
@@ -1419,12 +1721,16 @@ function recoverSession() {
             return;
         }
 
-        classData = recovered;
+        classData =
+            recovered;
 
         if (!classData.date) {
+
             classData.date =
                 formatDate(
-                    new Date(classData.startTime)
+                    new Date(
+                        classData.startTime
+                    )
                 );
         }
 
@@ -1432,16 +1738,28 @@ function recoverSession() {
             classData.incidents = [];
         }
 
-        document.getElementById("startScreen").classList.add("hidden");
-        document.getElementById("classScreen").classList.remove("hidden");
+        document
+            .getElementById("startScreen")
+            .classList.add("hidden");
+
+        document
+            .getElementById("classScreen")
+            .classList.remove("hidden");
 
         updateActiveInfo();
         renderCategories();
         updateRecent();
         updateTimer();
 
+        if (timerInterval) {
+            clearInterval(timerInterval);
+        }
+
         timerInterval =
-            setInterval(updateTimer, 1000);
+            setInterval(
+                updateTimer,
+                1000
+            );
 
         document.getElementById("headerStatus").textContent =
             "Clase recuperada";
@@ -1454,6 +1772,7 @@ function recoverSession() {
         );
     }
 }
+
 
 /* =====================================================
    UTILIDADES
@@ -1469,22 +1788,50 @@ function escapeHtml(text) {
         .replace(/'/g, "&#039;");
 }
 
-document.getElementById("initialKm")
-    .addEventListener("input", function() {
-        this.value =
-            this.value.replace(/\D/g, "").slice(0, 6);
-    });
 
-document.getElementById("finalKm")
-    .addEventListener("input", function() {
-        this.value =
-            this.value.replace(/\D/g, "").slice(0, 6);
-    });
+/* =====================================================
+   SOLO NÚMEROS EN KILÓMETROS
+===================================================== */
+
+document
+    .getElementById("initialKm")
+    .addEventListener(
+        "input",
+        function() {
+
+            this.value =
+                this.value
+                    .replace(/\D/g, "")
+                    .slice(0, 6);
+        }
+    );
+
+document
+    .getElementById("finalKm")
+    .addEventListener(
+        "input",
+        function() {
+
+            this.value =
+                this.value
+                    .replace(/\D/g, "")
+                    .slice(0, 6);
+        }
+    );
+
+
+/* =====================================================
+   ACTUALIZAR CRONÓMETRO AL VOLVER A LA APP
+===================================================== */
 
 document.addEventListener(
     "visibilitychange",
     () => {
-        if (!document.hidden && classData.startTime) {
+
+        if (
+            !document.hidden &&
+            classData.startTime
+        ) {
             updateTimer();
         }
     }
@@ -1493,11 +1840,17 @@ document.addEventListener(
 window.addEventListener(
     "focus",
     () => {
+
         if (classData.startTime) {
             updateTimer();
         }
     }
 );
+
+
+/* =====================================================
+   RECUPERAR CLASE AL ABRIR
+===================================================== */
 
 recoverSession();
 
