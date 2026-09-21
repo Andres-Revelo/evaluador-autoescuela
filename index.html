@@ -279,6 +279,17 @@ button{
   box-shadow:0 4px 14px rgba(0,0,0,.2);
 }
 
+.recovery{
+  background:#ecfdf5;
+  border:1px solid #bbf7d0;
+  color:#166534;
+  font-size:13px;
+  text-align:center;
+  padding:8px;
+  border-radius:10px;
+  margin-top:10px;
+}
+
 footer{
   text-align:center;
   color:#64748b;
@@ -361,6 +372,10 @@ footer{
   <div id="studentName" class="student-name"></div>
 
   <div id="timer">00:00</div>
+
+  <div id="recoveryMessage" class="recovery hidden">
+    ✓ Clase recuperada correctamente
+  </div>
 
 </section>
 
@@ -591,7 +606,7 @@ footer{
 
 
 <footer>
-  Registro de clase · Versión 0.7
+  Registro de clase · Versión 0.7.1
 </footer>
 
 
@@ -599,7 +614,24 @@ footer{
 <script>
 
 
-let seconds = 0;
+/*
+=====================================================
+VERSIÓN 0.7.1
+
+MEJORAS:
+
+1. El cronómetro utiliza la hora real de inicio.
+2. No pierde tiempo al cambiar de aplicación.
+3. La clase activa se guarda en localStorage.
+4. Los fallos se recuperan si Safari recarga.
+=====================================================
+*/
+
+
+const STORAGE_KEY = "registroClaseActiva_v071";
+
+
+let startTime = null;
 
 let timerInterval = null;
 
@@ -607,18 +639,8 @@ let incidents = [];
 
 let currentCategory = null;
 
+let currentStudent = "";
 
-
-/*
-=====================================================
-CATÁLOGO RÁPIDO
-=====================================================
-
-La idea de esta versión es registrar lo que ve
-el profesor, no calificarlo durante la conducción.
-
-Por eso utilizamos expresiones cortas y coloquiales.
-*/
 
 
 const categories = {
@@ -1375,6 +1397,72 @@ otros: {
 
 
 /* =================================================
+   GUARDAR CLASE
+================================================= */
+
+function saveClass(){
+
+  if(!startTime || !currentStudent){
+    return;
+  }
+
+  const data = {
+
+    active: true,
+
+    student: currentStudent,
+
+    startTime: startTime,
+
+    incidents: incidents
+
+  };
+
+
+  try{
+
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(data)
+    );
+
+  }catch(error){
+
+    console.log(
+      "No se pudo guardar la clase.",
+      error
+    );
+
+  }
+
+}
+
+
+
+/* =================================================
+   BORRAR CLASE GUARDADA
+================================================= */
+
+function clearSavedClass(){
+
+  try{
+
+    localStorage.removeItem(STORAGE_KEY);
+
+  }catch(error){
+
+    console.log(
+      "No se pudo borrar la clase guardada.",
+      error
+    );
+
+  }
+
+}
+
+
+
+/* =================================================
    INICIAR CLASE
 ================================================= */
 
@@ -1383,8 +1471,10 @@ function startClass(){
   const input =
     document.getElementById("studentInput");
 
+
   const name =
     input.value.trim();
+
 
   if(!name){
 
@@ -1397,8 +1487,33 @@ function startClass(){
   }
 
 
-  document.getElementById("studentName").textContent =
+  currentStudent =
     name;
+
+
+  /*
+    Guardamos la hora REAL de inicio.
+
+    Date.now() devuelve los milisegundos
+    transcurridos desde 1970.
+
+    Ya no necesitamos sumar segundos
+    manualmente.
+  */
+
+  startTime =
+    Date.now();
+
+
+  incidents = [];
+
+
+  document.getElementById("studentName").textContent =
+    currentStudent;
+
+
+  document.getElementById("timer").textContent =
+    "00:00";
 
 
   document.getElementById("startScreen")
@@ -1409,16 +1524,27 @@ function startClass(){
     .classList.remove("hidden");
 
 
-  seconds = 0;
-
-  incidents = [];
-
-  document.getElementById("timer").textContent =
-    "00:00";
+  document.getElementById("recoveryMessage")
+    .classList.add("hidden");
 
 
   renderIncidents();
 
+
+  saveClass();
+
+
+  startTimer();
+
+}
+
+
+
+/* =================================================
+   CRONÓMETRO BASADO EN HORA REAL
+================================================= */
+
+function startTimer(){
 
   if(timerInterval){
 
@@ -1427,15 +1553,62 @@ function startClass(){
   }
 
 
+  /*
+    Actualizamos inmediatamente para evitar
+    esperar al primer intervalo.
+  */
+
+  updateTimer();
+
+
   timerInterval =
     setInterval(function(){
 
-      seconds++;
-
-      document.getElementById("timer").textContent =
-        formatTime(seconds);
+      updateTimer();
 
     },1000);
+
+}
+
+
+
+/* =================================================
+   ACTUALIZAR CRONÓMETRO
+================================================= */
+
+function updateTimer(){
+
+  if(!startTime){
+    return;
+  }
+
+
+  /*
+    Calculamos SIEMPRE:
+
+    hora actual - hora de inicio.
+
+    Por tanto, aunque Safari haya estado
+    suspendido durante 20 minutos, cuando
+    vuelva a ejecutarse aparecerán esos
+    20 minutos automáticamente.
+  */
+
+  const elapsedMilliseconds =
+    Date.now() - startTime;
+
+
+  const elapsedSeconds =
+    Math.max(
+      0,
+      Math.floor(
+        elapsedMilliseconds / 1000
+      )
+    );
+
+
+  document.getElementById("timer").textContent =
+    formatTime(elapsedSeconds);
 
 }
 
@@ -1450,8 +1623,12 @@ function formatTime(totalSeconds){
   const hours =
     Math.floor(totalSeconds / 3600);
 
+
   const minutes =
-    Math.floor((totalSeconds % 3600) / 60);
+    Math.floor(
+      (totalSeconds % 3600) / 60
+    );
+
 
   const secs =
     totalSeconds % 60;
@@ -1486,7 +1663,9 @@ function formatTime(totalSeconds){
 
 function openCategory(key){
 
-  currentCategory = key;
+  currentCategory =
+    key;
+
 
   const category =
     categories[key];
@@ -1508,7 +1687,8 @@ function openCategory(key){
     document.getElementById("faultOptions");
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   category.faults.forEach(function(fault){
@@ -1577,7 +1757,8 @@ function openDetails(fault){
     document.getElementById("detailOptions");
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   fault.details.forEach(function(detail){
@@ -1625,10 +1806,15 @@ function backToCategories(){
     .classList.add("hidden");
 
 
+  document.getElementById("detailScreen")
+    .classList.add("hidden");
+
+
   document.getElementById("categoryScreen")
     .classList.remove("hidden");
 
 }
+
 
 
 function backToFaults(){
@@ -1650,8 +1836,20 @@ function backToFaults(){
 
 function registerIncident(category,text,detail){
 
+  /*
+    Antes de registrar actualizamos el tiempo
+    real por si Safari acaba de volver del
+    segundo plano.
+  */
+
+  updateTimer();
+
+
   const cleanText =
-    text.replace(/^[^\p{L}\p{N}]+/u,"").trim();
+    text.replace(
+      /^[^\p{L}\p{N}]+/u,
+      ""
+    ).trim();
 
 
   incidents.push({
@@ -1666,6 +1864,16 @@ function registerIncident(category,text,detail){
       document.getElementById("timer").textContent
 
   });
+
+
+  /*
+    Guardamos inmediatamente.
+
+    Así, cada vez que registramos un fallo,
+    queda almacenado en el dispositivo.
+  */
+
+  saveClass();
 
 
   renderIncidents();
@@ -1683,7 +1891,9 @@ function registerIncident(category,text,detail){
     .classList.remove("hidden");
 
 
-  showToast();
+  showToast(
+    "✓ Fallo registrado"
+  );
 
 }
 
@@ -1704,7 +1914,20 @@ function undoLast(){
 
   incidents.pop();
 
+
+  /*
+    También actualizamos la copia guardada.
+  */
+
+  saveClass();
+
+
   renderIncidents();
+
+
+  showToast(
+    "↩️ Último fallo eliminado"
+  );
 
 }
 
@@ -1746,12 +1969,13 @@ function renderIncidents(){
   }
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   /*
-    Durante la clase mostramos solo los últimos 5
-    para que la pantalla no se haga interminable.
+    Mostramos solamente los últimos 5
+    durante la clase.
   */
 
   const recent =
@@ -1798,13 +2022,17 @@ function renderIncidents(){
 
 
 /* =================================================
-   AVISO RÁPIDO
+   MENSAJE RÁPIDO
 ================================================= */
 
-function showToast(){
+function showToast(message){
 
   const toast =
     document.getElementById("toast");
+
+
+  toast.textContent =
+    message;
 
 
   toast.classList.remove("hidden");
@@ -1814,7 +2042,7 @@ function showToast(){
 
     toast.classList.add("hidden");
 
-  },700);
+  },900);
 
 }
 
@@ -1826,13 +2054,34 @@ function showToast(){
 
 function finishClass(){
 
-  clearInterval(timerInterval);
+  /*
+    Actualizamos una última vez antes de
+    detener el cronómetro.
+  */
 
-  timerInterval = null;
+  updateTimer();
+
+
+  if(timerInterval){
+
+    clearInterval(timerInterval);
+
+    timerInterval = null;
+
+  }
 
 
   const summary =
     buildSummary();
+
+
+  /*
+    La clase ya está terminada.
+
+    Ahora sí eliminamos la copia temporal.
+  */
+
+  clearSavedClass();
 
 
   document.getElementById("evaluationScreen")
@@ -1857,7 +2106,7 @@ function finishClass(){
 function buildSummary(){
 
   const name =
-    document.getElementById("studentName").textContent;
+    currentStudent;
 
 
   const duration =
@@ -1889,14 +2138,15 @@ function buildSummary(){
 
   /*
     Agrupamos:
+
     categoría + fallo + detalle
 
-    Así, si pulsamos el mismo fallo 3 veces,
-    aparecerá ×3.
+    Si se registra el mismo fallo varias veces
+    aparecerá ×2, ×3...
   */
 
-
-  const grouped = {};
+  const grouped =
+    {};
 
 
   incidents.forEach(function(incident){
@@ -1914,7 +2164,8 @@ function buildSummary(){
 
     if(!grouped[category]){
 
-      grouped[category] = {};
+      grouped[category] =
+        {};
 
     }
 
@@ -1923,11 +2174,14 @@ function buildSummary(){
 
       grouped[category][key] = {
 
-        text: incident.text,
+        text:
+          incident.text,
 
-        detail: incident.detail,
+        detail:
+          incident.detail,
 
-        count: 0
+        count:
+          0
 
       };
 
@@ -1948,37 +2202,38 @@ function buildSummary(){
       "\n";
 
 
-    Object.values(grouped[category])
-      .forEach(function(item){
+    Object.values(
+      grouped[category]
+    ).forEach(function(item){
 
 
-        summary +=
-          "• " +
-          item.text;
+      summary +=
+        "• " +
+        item.text;
 
 
-        if(item.detail){
-
-          summary +=
-            " — " +
-            item.detail;
-
-        }
-
-
-        if(item.count > 1){
-
-          summary +=
-            " ×" +
-            item.count;
-
-        }
-
+      if(item.detail){
 
         summary +=
-          "\n";
+          " — " +
+          item.detail;
 
-      });
+      }
+
+
+      if(item.count > 1){
+
+        summary +=
+          " ×" +
+          item.count;
+
+      }
+
+
+      summary +=
+        "\n";
+
+    });
 
 
     summary +=
@@ -2012,47 +2267,40 @@ async function copySummary(){
 
     await navigator.clipboard.writeText(text);
 
-    const toast =
-      document.getElementById("toast");
 
-    toast.textContent =
-      "✓ Resumen copiado";
-
-    toast.classList.remove("hidden");
-
-
-    setTimeout(function(){
-
-      toast.classList.add("hidden");
-
-      toast.textContent =
-        "✓ Fallo registrado";
-
-    },1200);
+    showToast(
+      "✓ Resumen copiado"
+    );
 
 
   }catch(error){
 
-    /*
-      Alternativa para navegadores donde
-      navigator.clipboard no esté disponible.
-    */
 
     const area =
       document.createElement("textarea");
 
+
     area.value =
       text;
 
+
     document.body.appendChild(area);
+
 
     area.select();
 
-    document.execCommand("copy");
+
+    document.execCommand(
+      "copy"
+    );
+
 
     document.body.removeChild(area);
 
-    alert("Resumen copiado.");
+
+    showToast(
+      "✓ Resumen copiado"
+    );
 
   }
 
@@ -2066,15 +2314,41 @@ async function copySummary(){
 
 function newClass(){
 
-  seconds = 0;
+  if(timerInterval){
 
-  incidents = [];
+    clearInterval(timerInterval);
 
-  currentCategory = null;
+    timerInterval =
+      null;
+
+  }
+
+
+  clearSavedClass();
+
+
+  startTime =
+    null;
+
+
+  incidents =
+    [];
+
+
+  currentCategory =
+    null;
+
+
+  currentStudent =
+    "";
 
 
   document.getElementById("studentInput").value =
     "";
+
+
+  document.getElementById("timer").textContent =
+    "00:00";
 
 
   document.getElementById("summaryScreen")
@@ -2101,9 +2375,230 @@ function newClass(){
     .classList.add("hidden");
 
 
+  document.getElementById("recoveryMessage")
+    .classList.add("hidden");
+
+
+  renderIncidents();
+
+
   document.getElementById("studentInput").focus();
 
 }
+
+
+
+/* =================================================
+   RECUPERAR CLASE
+================================================= */
+
+function recoverClass(){
+
+  let savedData;
+
+
+  try{
+
+    const raw =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
+
+
+    if(!raw){
+
+      return false;
+
+    }
+
+
+    savedData =
+      JSON.parse(raw);
+
+
+  }catch(error){
+
+    /*
+      Si los datos estuvieran dañados,
+      eliminamos la copia y arrancamos
+      normalmente.
+    */
+
+    clearSavedClass();
+
+    return false;
+
+  }
+
+
+
+  if(
+    !savedData ||
+    !savedData.active ||
+    !savedData.student ||
+    !savedData.startTime
+  ){
+
+    clearSavedClass();
+
+    return false;
+
+  }
+
+
+  currentStudent =
+    savedData.student;
+
+
+  startTime =
+    Number(
+      savedData.startTime
+    );
+
+
+  incidents =
+    Array.isArray(
+      savedData.incidents
+    )
+      ? savedData.incidents
+      : [];
+
+
+  document.getElementById("studentName").textContent =
+    currentStudent;
+
+
+  document.getElementById("startScreen")
+    .classList.add("hidden");
+
+
+  document.getElementById("summaryScreen")
+    .classList.add("hidden");
+
+
+  document.getElementById("evaluationScreen")
+    .classList.remove("hidden");
+
+
+  document.getElementById("categoryScreen")
+    .classList.remove("hidden");
+
+
+  document.getElementById("faultScreen")
+    .classList.add("hidden");
+
+
+  document.getElementById("detailScreen")
+    .classList.add("hidden");
+
+
+  renderIncidents();
+
+
+  updateTimer();
+
+
+  startTimer();
+
+
+  /*
+    Avisamos discretamente de que la
+    recuperación ha funcionado.
+  */
+
+  const message =
+    document.getElementById(
+      "recoveryMessage"
+    );
+
+
+  message.classList.remove(
+    "hidden"
+  );
+
+
+  setTimeout(function(){
+
+    message.classList.add(
+      "hidden"
+    );
+
+  },2500);
+
+
+  return true;
+
+}
+
+
+
+/* =================================================
+   CUANDO VOLVEMOS A SAFARI
+================================================= */
+
+/*
+  Este evento es especialmente importante
+  en iPhone/iPad.
+
+  Cuando Safari vuelve a estar visible,
+  recalculamos inmediatamente el tiempo.
+*/
+
+document.addEventListener(
+  "visibilitychange",
+  function(){
+
+    if(
+      document.visibilityState === "visible" &&
+      startTime
+    ){
+
+      updateTimer();
+
+    }
+
+  }
+);
+
+
+
+/*
+  También recalculamos si la ventana
+  recupera el foco.
+*/
+
+window.addEventListener(
+  "focus",
+  function(){
+
+    if(startTime){
+
+      updateTimer();
+
+    }
+
+  }
+);
+
+
+
+/* =================================================
+   ARRANQUE DE LA WEB
+================================================= */
+
+/*
+  Nada más abrir la página comprobamos
+  si existe una clase sin finalizar.
+*/
+
+window.addEventListener(
+  "DOMContentLoaded",
+  function(){
+
+    recoverClass();
+
+  }
+);
 
 
 </script>
