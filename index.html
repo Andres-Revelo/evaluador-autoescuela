@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
+<meta name="theme-color" content="#000000">
 
 <title>Registro de Clase</title>
 
@@ -16,18 +16,19 @@
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-    background: #f1f5f9;
-    color: #0f172a;
+    background: #000000;
+    color: #ffffff;
 }
 
 header {
-    background: #0f172a;
+    background: #000000;
     color: white;
     padding: 16px;
     text-align: center;
     position: sticky;
     top: 0;
     z-index: 20;
+    border-bottom: 1px solid #262626;
 }
 
 header h1 {
@@ -38,7 +39,7 @@ header h1 {
 header .sub {
     margin-top: 5px;
     font-size: 13px;
-    opacity: .8;
+    color: #a3a3a3;
 }
 
 .container {
@@ -48,11 +49,11 @@ header .sub {
 }
 
 .card {
-    background: white;
+    background: #111111;
+    border: 1px solid #292929;
     border-radius: 16px;
     padding: 18px;
     margin-bottom: 16px;
-    box-shadow: 0 2px 10px rgba(0,0,0,.06);
 }
 
 h2 {
@@ -60,13 +61,25 @@ h2 {
     font-size: 20px;
 }
 
+label {
+    display: block;
+    margin-top: 10px;
+    font-weight: 600;
+}
+
 input {
     width: 100%;
     padding: 15px;
     margin: 7px 0;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #404040;
     border-radius: 12px;
     font-size: 17px;
+    background: #1c1c1e;
+    color: white;
+}
+
+input::placeholder {
+    color: #737373;
 }
 
 button {
@@ -80,7 +93,7 @@ button {
 }
 
 button:disabled {
-    opacity: .85;
+    opacity: .75;
 }
 
 .primary {
@@ -99,8 +112,17 @@ button:disabled {
 
 .secondary {
     width: 100%;
-    background: #e2e8f0;
-    color: #0f172a;
+    background: #292929;
+    color: white;
+    border: 1px solid #404040;
+    margin-top: 10px;
+}
+
+.historyButton {
+    width: 100%;
+    background: #1c1c1e;
+    color: white;
+    border: 1px solid #404040;
     margin-top: 10px;
 }
 
@@ -119,9 +141,9 @@ button:disabled {
 
 .category {
     min-height: 70px;
-    background: white;
-    border: 1px solid #cbd5e1;
-    box-shadow: 0 1px 4px rgba(0,0,0,.05);
+    background: #171717;
+    color: white;
+    border: 1px solid #404040;
 }
 
 .category:active,
@@ -132,29 +154,31 @@ button:disabled {
 
 .option {
     width: 100%;
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    background: #1c1c1e;
+    color: white;
+    border: 1px solid #404040;
     margin-bottom: 8px;
     text-align: left;
 }
 
 .subcategory {
     width: 100%;
-    background: #dbeafe;
-    color: #1e3a8a;
-    border: 1px solid #93c5fd;
+    background: #172554;
+    color: #dbeafe;
+    border: 1px solid #1d4ed8;
     margin-bottom: 9px;
     text-align: left;
 }
 
 .back {
-    background: #e2e8f0;
+    background: #292929;
+    color: white;
     width: 100%;
     margin-bottom: 12px;
 }
 
 .timer {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 700;
     text-align: center;
     margin: 8px 0;
@@ -168,9 +192,9 @@ button:disabled {
 
 .counter {
     display: inline-block;
-    background: #fee2e2;
-    color: #991b1b;
-    padding: 5px 9px;
+    background: #450a0a;
+    color: #fecaca;
+    padding: 6px 10px;
     border-radius: 999px;
     font-size: 13px;
     font-weight: 700;
@@ -182,7 +206,7 @@ button:disabled {
 }
 
 .incident {
-    background: #f8fafc;
+    background: #171717;
     border-left: 4px solid #2563eb;
     padding: 10px;
     margin-bottom: 7px;
@@ -198,8 +222,8 @@ button:disabled {
 }
 
 .deleteBtn {
-    background: #fee2e2;
-    color: #991b1b;
+    background: #450a0a;
+    color: #fecaca;
     padding: 7px 10px;
     font-size: 13px;
     flex-shrink: 0;
@@ -207,13 +231,14 @@ button:disabled {
 
 .report {
     white-space: pre-wrap;
-    background: #f8fafc;
-    border: 1px solid #cbd5e1;
+    background: #090909;
+    border: 1px solid #404040;
     padding: 15px;
     border-radius: 12px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    color: white;
     user-select: text;
     -webkit-user-select: text;
 }
@@ -223,9 +248,19 @@ button:disabled {
 }
 
 .notice {
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    color: #1e40af;
+    background: #172554;
+    border: 1px solid #1d4ed8;
+    color: #dbeafe;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.successNotice {
+    background: #052e16;
+    border: 1px solid #166534;
+    color: #bbf7d0;
     padding: 12px;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -233,15 +268,44 @@ button:disabled {
 }
 
 .error {
-    color: #b91c1c;
+    color: #fca5a5;
     font-size: 14px;
     margin-top: 8px;
+}
+
+.historyItem {
+    background: #171717;
+    border: 1px solid #404040;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 10px;
+}
+
+.historyItem strong {
+    font-size: 17px;
+}
+
+.historyMeta {
+    color: #a3a3a3;
+    font-size: 13px;
+    margin: 5px 0 12px;
+}
+
+.historyOpen {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+}
+
+.empty {
+    color: #a3a3a3;
+    font-size: 14px;
 }
 
 footer {
     text-align: center;
     padding: 20px;
-    color: #64748b;
+    color: #737373;
     font-size: 12px;
 }
 
@@ -264,6 +328,7 @@ footer {
 
     <!-- INICIO -->
     <section id="startScreen" class="card">
+
         <h2>Nueva clase</h2>
 
         <label>Alumno</label>
@@ -280,7 +345,7 @@ footer {
             type="text"
             inputmode="numeric"
             maxlength="6"
-            placeholder="Ej. 448761"
+            placeholder="Ej. 449939"
         >
 
         <div id="startError" class="error"></div>
@@ -288,20 +353,31 @@ footer {
         <button class="primary" onclick="startClass()">
             ▶️ Iniciar clase
         </button>
+
+        <button class="historyButton" onclick="openHistory()">
+            🕘 Últimas clases
+        </button>
+
     </section>
+
 
     <!-- CLASE ACTIVA -->
     <section id="classScreen" class="hidden">
 
         <div class="card">
+
             <div id="activeStudent" class="classInfo"></div>
-            <div id="timer" class="timer">00:00:00</div>
+
+            <div id="timer" class="timer">
+                00:00:00
+            </div>
 
             <div style="text-align:center">
                 <span id="faultCounter" class="counter">
                     0 fallos registrados
                 </span>
             </div>
+
         </div>
 
         <div id="categoryArea">
@@ -309,23 +385,35 @@ footer {
         </div>
 
         <div id="optionArea" class="card hidden">
-            <button class="back" onclick="showCategories()">← Volver</button>
+
+            <button class="back" onclick="showCategories()">
+                ← Volver
+            </button>
+
             <h2 id="optionTitle"></h2>
+
             <div id="optionList"></div>
+
         </div>
 
         <div class="card recent">
+
             <h2>Últimos fallos</h2>
+
             <div id="recentList"></div>
+
         </div>
 
         <button class="finish" onclick="openFinishScreen()">
             ⏹ Finalizar clase
         </button>
+
     </section>
+
 
     <!-- FINALIZAR -->
     <section id="finishScreen" class="card hidden">
+
         <h2>Finalizar clase</h2>
 
         <div class="notice">
@@ -335,12 +423,13 @@ footer {
         <div id="finishInfo"></div>
 
         <label>Kilómetros finales</label>
+
         <input
             id="finalKm"
             type="text"
             inputmode="numeric"
             maxlength="6"
-            placeholder="Ej. 448785"
+            placeholder="Ej. 449971"
         >
 
         <div id="finishError" class="error"></div>
@@ -352,12 +441,19 @@ footer {
         <button class="secondary" onclick="cancelFinish()">
             ← Volver a la clase
         </button>
+
     </section>
+
 
     <!-- INFORMES -->
     <section id="reportScreen" class="hidden">
 
+        <div class="successNotice">
+            💾 Clase guardada. Podrás recuperarla desde “Últimas clases”.
+        </div>
+
         <div class="card">
+
             <h2>📋 Informe completo</h2>
 
             <div class="notice">
@@ -373,9 +469,12 @@ footer {
             >
                 📋 Copiar informe completo
             </button>
+
         </div>
 
+
         <div class="card">
+
             <h2>👤 Informe para el alumno</h2>
 
             <div class="notice">
@@ -391,10 +490,82 @@ footer {
             >
                 👤 Copiar informe del alumno
             </button>
+
         </div>
 
         <button class="primary" onclick="newClass()">
             ➕ Nueva clase
+        </button>
+
+        <button class="historyButton" onclick="openHistory()">
+            🕘 Últimas clases
+        </button>
+
+    </section>
+
+
+    <!-- HISTORIAL -->
+    <section id="historyScreen" class="hidden">
+
+        <div class="card">
+
+            <h2>🕘 Últimas clases</h2>
+
+            <div class="notice">
+                Se guardan automáticamente las 2 últimas clases finalizadas en este dispositivo.
+            </div>
+
+            <div id="historyList"></div>
+
+            <button class="secondary" onclick="closeHistory()">
+                ← Volver
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- CLASE DEL HISTORIAL -->
+    <section id="historyReportScreen" class="hidden">
+
+        <div class="card">
+
+            <h2 id="historyTitle">
+                Clase guardada
+            </h2>
+
+            <h3>📋 Informe completo</h3>
+
+            <div id="historyTeacherReport" class="report"></div>
+
+            <button
+                class="copy"
+                onclick="copyHistoryTeacher(this)"
+            >
+                📋 Copiar informe completo
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h2>👤 Informe para el alumno</h2>
+
+            <div id="historyStudentReport" class="report"></div>
+
+            <button
+                class="copy"
+                onclick="copyHistoryStudent(this)"
+            >
+                👤 Copiar informe del alumno
+            </button>
+
+        </div>
+
+        <button class="secondary" onclick="openHistory()">
+            ← Volver a últimas clases
         </button>
 
     </section>
@@ -402,12 +573,24 @@ footer {
 </div>
 
 <footer>
-    Registro de clase · Versión 0.8.1
+    Registro de clase · Versión 0.9
 </footer>
+
 
 <script>
 
-const STORAGE_KEY = "registroClaseActiva_v081";
+/* =====================================================
+   ALMACENAMIENTO
+===================================================== */
+
+const ACTIVE_STORAGE_KEY =
+    "registroClaseActiva_v090";
+
+const HISTORY_STORAGE_KEY =
+    "registroHistorial_v090";
+
+const MAX_HISTORY = 2;
+
 
 let classData = {
     student: "",
@@ -418,8 +601,14 @@ let classData = {
 };
 
 let timerInterval = null;
+
 let teacherReportText = "";
 let studentReportText = "";
+
+let selectedHistoryTeacher = "";
+let selectedHistoryStudent = "";
+
+let previousScreen = "startScreen";
 
 
 /* =====================================================
@@ -444,6 +633,7 @@ const catalog = {
         "No presta atención a peatones al salir"
     ],
 
+
     "➕ Intersección": [
         "No observa bien",
         "No llega con la marcha correcta",
@@ -457,6 +647,7 @@ const catalog = {
         "No señaliza el giro",
         "Hace mal el giro"
     ],
+
 
     "➡️ Incorporación": [
         "No mira antes de incorporarse",
@@ -472,6 +663,7 @@ const catalog = {
         "Se incorpora de forma brusca"
     ],
 
+
     "🛣️ Circulación": [
         "No circula por la derecha",
         "Va demasiado cerca del vehículo de delante",
@@ -486,6 +678,7 @@ const catalog = {
         "Mala posición en el carril"
     ],
 
+
     "🛣️ Autovía": {
 
         "➡️ Incorporación": [
@@ -495,6 +688,7 @@ const catalog = {
             "Se incorpora con poca velocidad",
             "Tarda demasiado en incorporarse",
             "Se incorpora demasiado pronto",
+            "Se incorpora de forma brusca",
             {
                 text: "Se incorpora cuando no debe",
                 context: true
@@ -515,7 +709,8 @@ const catalog = {
             "Se coloca tarde para salir",
             "Reduce la velocidad antes de entrar en el carril de deceleración",
             "Entra demasiado rápido en la salida",
-            "Frena bruscamente por falta de anticipación"
+            "Frena bruscamente por falta de anticipación",
+            "No reduce la marcha ante una señal vertical"
         ],
 
         "🚗💨 Adelantamiento": [
@@ -532,7 +727,8 @@ const catalog = {
             "Circula demasiado despacio",
             "No adapta la velocidad al tráfico",
             "No adapta la velocidad a las condiciones de la vía",
-            "No mantiene una velocidad adecuada"
+            "No mantiene una velocidad adecuada",
+            "No reduce la velocidad ante una señal vertical"
         ],
 
         "↔️ Distancia de seguridad": [
@@ -543,6 +739,7 @@ const catalog = {
         ]
     },
 
+
     "🚦 Velocidad": [
         "Va demasiado rápido",
         "Va demasiado despacio",
@@ -551,8 +748,10 @@ const catalog = {
         "Llega demasiado rápido a una intersección",
         "No reduce ante peatones",
         "No adapta la velocidad a las condiciones",
+        "No reduce la velocidad ante una señal vertical que lo indica",
         "Velocidad peligrosa"
     ],
+
 
     "🚶 Peatones": [
         "No detecta la intención del peatón",
@@ -567,6 +766,7 @@ const catalog = {
         "No mira peatones al salir de la glorieta"
     ],
 
+
     "💡 Intermitentes": [
         "No pone el intermitente",
         "Pone el intermitente contrario",
@@ -579,6 +779,7 @@ const catalog = {
         "No señaliza al incorporarse"
     ],
 
+
     "↔️ Carril / posición": [
         "Va demasiado a la derecha",
         "Va demasiado a la izquierda",
@@ -590,6 +791,7 @@ const catalog = {
         "Invade el carril contrario"
     ],
 
+
     "🚗💨 Adelantamiento": [
         "No observa antes de adelantar",
         "No pone intermitente",
@@ -600,6 +802,7 @@ const catalog = {
         "Adelanta obstaculizando",
         "Adelanta provocando peligro"
     ],
+
 
     "🅿️ Estacionamiento": {
 
@@ -661,6 +864,7 @@ const catalog = {
         ]
     },
 
+
     "🛑 STOP / Ceda": [
         {
             text: "No se detiene en el STOP",
@@ -679,6 +883,7 @@ const catalog = {
         "No observa correctamente"
     ],
 
+
     "🛑 Detenciones": [
         "No se detiene con la marcha correcta",
         "Se detiene bruscamente",
@@ -686,6 +891,7 @@ const catalog = {
         "Se detiene demasiado lejos",
         "Se detiene demasiado cerca"
     ],
+
 
     "⚙️ Marchas": [
         "Realiza los cambios de marcha de forma brusca",
@@ -697,6 +903,7 @@ const catalog = {
         "No llega con la marcha correcta",
         "Tarda en cambiar de marcha"
     ],
+
 
     "🎛️ Mandos": [
         "Se cala el motor",
@@ -710,6 +917,7 @@ const catalog = {
         "Confunde los pedales"
     ],
 
+
     "👀 Observación": [
         "No mira los espejos",
         "Mira demasiado tarde",
@@ -720,6 +928,7 @@ const catalog = {
         "No observa a los peatones",
         "No observa al maniobrar"
     ],
+
 
     "📌 Otros": [
         "No respeta un semáforo",
@@ -735,6 +944,7 @@ const catalog = {
     ]
 };
 
+
 const contexts = [
     "Sin obstaculizar",
     "Obstaculizando",
@@ -743,16 +953,54 @@ const contexts = [
 
 
 /* =====================================================
-   INICIO DE CLASE
+   PANTALLAS
+===================================================== */
+
+function hideAllScreens() {
+
+    [
+        "startScreen",
+        "classScreen",
+        "finishScreen",
+        "reportScreen",
+        "historyScreen",
+        "historyReportScreen"
+    ].forEach(id => {
+
+        document
+            .getElementById(id)
+            .classList.add("hidden");
+    });
+}
+
+
+function showScreen(id) {
+
+    hideAllScreens();
+
+    document
+        .getElementById(id)
+        .classList.remove("hidden");
+}
+
+
+/* =====================================================
+   INICIO
 ===================================================== */
 
 function startClass() {
 
     const student =
-        document.getElementById("studentName").value.trim();
+        document
+            .getElementById("studentName")
+            .value
+            .trim();
 
     const km =
-        document.getElementById("initialKm").value.trim();
+        document
+            .getElementById("initialKm")
+            .value
+            .trim();
 
     const error =
         document.getElementById("startError");
@@ -760,14 +1008,18 @@ function startClass() {
     error.textContent = "";
 
     if (!student) {
+
         error.textContent =
             "Introduce el nombre del alumno.";
+
         return;
     }
 
     if (!/^\d{6}$/.test(km)) {
+
         error.textContent =
             "Los kilómetros iniciales deben tener exactamente 6 cifras.";
+
         return;
     }
 
@@ -781,30 +1033,21 @@ function startClass() {
         incidents: []
     };
 
-    saveSession();
+    /*
+       Se guarda ANTES incluso de cambiar de pantalla.
+    */
 
-    document
-        .getElementById("startScreen")
-        .classList.add("hidden");
+    saveActiveSession();
 
-    document
-        .getElementById("classScreen")
-        .classList.remove("hidden");
+    showScreen("classScreen");
 
     updateActiveInfo();
     renderCategories();
     updateRecent();
-    updateTimer();
-
-    if (timerInterval) {
-        clearInterval(timerInterval);
-    }
-
-    timerInterval =
-        setInterval(updateTimer, 1000);
+    startTimer();
 
     document.getElementById("headerStatus").textContent =
-        "Clase en curso";
+        "Clase en curso · Guardado automático";
 }
 
 
@@ -831,6 +1074,22 @@ function formatDate(date) {
    CRONÓMETRO
 ===================================================== */
 
+function startTimer() {
+
+    if (timerInterval) {
+        clearInterval(timerInterval);
+    }
+
+    updateTimer();
+
+    timerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+}
+
+
 function updateTimer() {
 
     if (!classData.startTime) return;
@@ -847,13 +1106,16 @@ function updateTimer() {
         formatDuration(elapsed);
 }
 
+
 function formatDuration(totalSeconds) {
 
     const hours =
         Math.floor(totalSeconds / 3600);
 
     const minutes =
-        Math.floor((totalSeconds % 3600) / 60);
+        Math.floor(
+            (totalSeconds % 3600) / 60
+        );
 
     const seconds =
         totalSeconds % 60;
@@ -863,13 +1125,16 @@ function formatDuration(totalSeconds) {
         minutes,
         seconds
     ]
-    .map(v => String(v).padStart(2, "0"))
+    .map(
+        value =>
+            String(value).padStart(2, "0")
+    )
     .join(":");
 }
 
 
 /* =====================================================
-   INFORMACIÓN ACTIVA
+   DATOS CLASE
 ===================================================== */
 
 function updateActiveInfo() {
@@ -897,8 +1162,11 @@ function renderCategories() {
         const button =
             document.createElement("button");
 
-        button.className = "category";
-        button.textContent = category;
+        button.className =
+            "category";
+
+        button.textContent =
+            category;
 
         button.onclick =
             () => openCategory(category);
@@ -906,6 +1174,7 @@ function renderCategories() {
         grid.appendChild(button);
     });
 }
+
 
 function showCategories() {
 
@@ -959,8 +1228,11 @@ function openCategory(category) {
             const button =
                 document.createElement("button");
 
-            button.className = "subcategory";
-            button.textContent = subcategory;
+            button.className =
+                "subcategory";
+
+            button.textContent =
+                subcategory;
 
             button.onclick =
                 () => openSubcategory(
@@ -975,7 +1247,7 @@ function openCategory(category) {
 
 
 /* =====================================================
-   SUBCATEGORÍAS
+   SUBCATEGORÍA
 ===================================================== */
 
 function openSubcategory(
@@ -997,7 +1269,9 @@ function openSubcategory(
     const backButton =
         document.createElement("button");
 
-    backButton.className = "back";
+    backButton.className =
+        "back";
+
     backButton.textContent =
         "← Volver a " + category;
 
@@ -1016,7 +1290,7 @@ function openSubcategory(
 
 
 /* =====================================================
-   OPCIONES DE FALLO
+   FALLOS
 ===================================================== */
 
 function renderFaultOptions(
@@ -1035,14 +1309,16 @@ function renderFaultOptions(
         const button =
             document.createElement("button");
 
-        button.className = "option";
+        button.className =
+            "option";
 
         const text =
             typeof option === "string"
                 ? option
                 : option.text;
 
-        button.textContent = text;
+        button.textContent =
+            text;
 
         if (
             typeof option === "object" &&
@@ -1092,17 +1368,23 @@ function showContextOptions(
     const backButton =
         document.createElement("button");
 
-    backButton.className = "back";
-    backButton.textContent = "← Volver";
+    backButton.className =
+        "back";
+
+    backButton.textContent =
+        "← Volver";
 
     backButton.onclick = () => {
 
         if (subcategory) {
+
             openSubcategory(
                 category,
                 subcategory
             );
+
         } else {
+
             openCategory(category);
         }
     };
@@ -1114,8 +1396,11 @@ function showContextOptions(
         const button =
             document.createElement("button");
 
-        button.className = "option";
-        button.textContent = context;
+        button.className =
+            "option";
+
+        button.textContent =
+            context;
 
         button.onclick =
             () => addIncident(
@@ -1131,7 +1416,7 @@ function showContextOptions(
 
 
 /* =====================================================
-   REGISTRAR FALLO
+   REGISTRAR FALLO + GUARDADO INMEDIATO
 ===================================================== */
 
 function addIncident(
@@ -1149,8 +1434,16 @@ function addIncident(
         timestamp: Date.now()
     });
 
-    saveSession();
+    /*
+       Guardamos inmediatamente.
+       Si el navegador se cierra después de este punto,
+       el fallo ya está almacenado.
+    */
+
+    saveActiveSession();
+
     updateRecent();
+
     showCategories();
 }
 
@@ -1176,7 +1469,7 @@ function updateRecent() {
     if (classData.incidents.length === 0) {
 
         list.innerHTML =
-            "<div style='color:#64748b'>Todavía no hay fallos registrados.</div>";
+            '<div class="empty">Todavía no hay fallos registrados.</div>';
 
         return;
     }
@@ -1189,17 +1482,21 @@ function updateRecent() {
     recent.forEach(incident => {
 
         const realIndex =
-            classData.incidents.indexOf(incident);
+            classData.incidents.indexOf(
+                incident
+            );
 
         const div =
             document.createElement("div");
 
-        div.className = "incident";
+        div.className =
+            "incident";
 
         let text =
             `<strong>${escapeHtml(incident.category)}</strong>`;
 
         if (incident.subcategory) {
+
             text +=
                 ` · ${escapeHtml(incident.subcategory)}`;
         }
@@ -1208,6 +1505,7 @@ function updateRecent() {
             `<br>${escapeHtml(incident.fault)}`;
 
         if (incident.context) {
+
             text +=
                 ` — ${escapeHtml(incident.context)}`;
         }
@@ -1215,14 +1513,20 @@ function updateRecent() {
         const textDiv =
             document.createElement("div");
 
-        textDiv.className = "incidentText";
-        textDiv.innerHTML = text;
+        textDiv.className =
+            "incidentText";
+
+        textDiv.innerHTML =
+            text;
 
         const deleteButton =
             document.createElement("button");
 
-        deleteButton.className = "deleteBtn";
-        deleteButton.textContent = "✕";
+        deleteButton.className =
+            "deleteBtn";
+
+        deleteButton.textContent =
+            "✕";
 
         deleteButton.onclick =
             () => deleteIncident(realIndex);
@@ -1234,56 +1538,70 @@ function updateRecent() {
     });
 }
 
+
 function deleteIncident(index) {
 
-    classData.incidents.splice(index, 1);
+    classData.incidents.splice(
+        index,
+        1
+    );
 
-    saveSession();
+    /*
+       También guardamos inmediatamente
+       después de borrar.
+    */
+
+    saveActiveSession();
+
     updateRecent();
 }
 
 
 /* =====================================================
-   FINALIZACIÓN
+   FINALIZAR
 ===================================================== */
 
 function openFinishScreen() {
 
-    document
-        .getElementById("classScreen")
-        .classList.add("hidden");
-
-    document
-        .getElementById("finishScreen")
-        .classList.remove("hidden");
+    showScreen(
+        "finishScreen"
+    );
 
     document.getElementById("finishInfo").innerHTML =
         `<p><strong>${escapeHtml(classData.student)}</strong></p>` +
         `<p>📅 ${classData.date}</p>` +
         `<p>Kilómetros iniciales: ${classData.initialKm}</p>`;
 
-    document.getElementById("finalKm").value = "";
-    document.getElementById("finishError").textContent = "";
+    document.getElementById("finalKm").value =
+        "";
+
+    document.getElementById("finishError").textContent =
+        "";
 
     document.getElementById("headerStatus").textContent =
         "Finalizando clase";
 }
 
+
 function cancelFinish() {
 
-    document
-        .getElementById("finishScreen")
-        .classList.add("hidden");
+    showScreen(
+        "classScreen"
+    );
 
-    document
-        .getElementById("classScreen")
-        .classList.remove("hidden");
-
+    updateActiveInfo();
+    renderCategories();
+    updateRecent();
     updateTimer();
 
     document.getElementById("headerStatus").textContent =
-        "Clase en curso";
+        "Clase en curso · Guardado automático";
 }
+
+
+/* =====================================================
+   CONFIRMAR FINAL
+===================================================== */
 
 function confirmFinish() {
 
@@ -1296,7 +1614,8 @@ function confirmFinish() {
     const error =
         document.getElementById("finishError");
 
-    error.textContent = "";
+    error.textContent =
+        "";
 
     if (!/^\d{6}$/.test(finalKm)) {
 
@@ -1307,10 +1626,16 @@ function confirmFinish() {
     }
 
     const initialNumber =
-        parseInt(classData.initialKm, 10);
+        parseInt(
+            classData.initialKm,
+            10
+        );
 
     const finalNumber =
-        parseInt(finalKm, 10);
+        parseInt(
+            finalKm,
+            10
+        );
 
     if (finalNumber < initialNumber) {
 
@@ -1327,37 +1652,57 @@ function confirmFinish() {
         Math.max(
             0,
             Math.floor(
-                (endTime - classData.startTime) / 1000
+                (
+                    endTime -
+                    classData.startTime
+                ) / 1000
             )
         );
-
-    if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-    }
 
     generateReports(
         finalKm,
         durationSeconds
     );
 
-    localStorage.removeItem(STORAGE_KEY);
+    /*
+       MUY IMPORTANTE:
 
-    document
-        .getElementById("finishScreen")
-        .classList.add("hidden");
+       Primero guardamos la clase finalizada
+       en el historial.
 
-    document
-        .getElementById("reportScreen")
-        .classList.remove("hidden");
+       Solo DESPUÉS eliminamos la sesión activa.
+    */
+
+    saveFinishedClass(
+        finalKm,
+        durationSeconds
+    );
+
+    localStorage.removeItem(
+        ACTIVE_STORAGE_KEY
+    );
+
+    if (timerInterval) {
+
+        clearInterval(
+            timerInterval
+        );
+
+        timerInterval =
+            null;
+    }
+
+    showScreen(
+        "reportScreen"
+    );
 
     document.getElementById("headerStatus").textContent =
-        "Clase finalizada";
+        "Clase finalizada y guardada";
 }
 
 
 /* =====================================================
-   GENERAR INFORMES
+   INFORMES
 ===================================================== */
 
 function generateReports(
@@ -1386,6 +1731,7 @@ ${faultsText}
 
 Total de fallos registrados: ${classData.incidents.length}`;
 
+
     studentReportText =
 `Alumno: ${classData.student}
 Fecha: ${classData.date}
@@ -1396,6 +1742,7 @@ ${faultsText}
 
 Total de fallos registrados: ${classData.incidents.length}`;
 
+
     document.getElementById("teacherReport").textContent =
         teacherReportText;
 
@@ -1405,16 +1752,20 @@ Total de fallos registrados: ${classData.incidents.length}`;
 
 
 /* =====================================================
-   AGRUPAR FALLOS
+   RESUMEN DE FALLOS
 ===================================================== */
 
 function buildFaultSummary() {
 
-    if (classData.incidents.length === 0) {
+    if (
+        classData.incidents.length === 0
+    ) {
+
         return "Sin fallos registrados.";
     }
 
-    const groups = {};
+    const groups =
+        {};
 
     classData.incidents.forEach(item => {
 
@@ -1424,50 +1775,66 @@ function buildFaultSummary() {
                 : item.category;
 
         if (!groups[groupKey]) {
-            groups[groupKey] = {};
+
+            groups[groupKey] =
+                {};
         }
 
         let faultText =
             item.fault;
 
         if (item.context) {
+
             faultText +=
                 ` — ${item.context}`;
         }
 
-        if (!groups[groupKey][faultText]) {
-            groups[groupKey][faultText] = 0;
+        if (
+            !groups[groupKey][faultText]
+        ) {
+
+            groups[groupKey][faultText] =
+                0;
         }
 
         groups[groupKey][faultText]++;
     });
 
-    let result = "";
+
+    let result =
+        "";
 
     Object.keys(groups).forEach(
         (group, groupIndex) => {
 
             if (groupIndex > 0) {
-                result += "\n";
+
+                result +=
+                    "\n";
             }
 
-            result += `${group}\n`;
+            result +=
+                `${group}\n`;
 
-            Object.keys(groups[group]).forEach(
-                fault => {
+            Object.keys(
+                groups[group]
+            ).forEach(fault => {
 
-                    const count =
-                        groups[group][fault];
+                const count =
+                    groups[group][fault];
 
-                    result += `• ${fault}`;
+                result +=
+                    `• ${fault}`;
 
-                    if (count > 1) {
-                        result += ` ×${count}`;
-                    }
+                if (count > 1) {
 
-                    result += "\n";
+                    result +=
+                        ` ×${count}`;
                 }
-            );
+
+                result +=
+                    "\n";
+            });
         }
     );
 
@@ -1476,7 +1843,301 @@ function buildFaultSummary() {
 
 
 /* =====================================================
-   COPIAR INFORMES - v0.8.1
+   GUARDAR CLASE FINALIZADA
+===================================================== */
+
+function saveFinishedClass(
+    finalKm,
+    durationSeconds
+) {
+
+    const history =
+        getHistory();
+
+    const record = {
+
+        id: Date.now(),
+
+        student:
+            classData.student,
+
+        date:
+            classData.date,
+
+        initialKm:
+            classData.initialKm,
+
+        finalKm:
+            finalKm,
+
+        durationSeconds:
+            durationSeconds,
+
+        incidents:
+            JSON.parse(
+                JSON.stringify(
+                    classData.incidents
+                )
+            ),
+
+        teacherReport:
+            teacherReportText,
+
+        studentReport:
+            studentReportText,
+
+        savedAt:
+            Date.now()
+    };
+
+    /*
+       La clase nueva se coloca delante.
+    */
+
+    history.unshift(
+        record
+    );
+
+    /*
+       Solo conservamos las 2 últimas.
+    */
+
+    const limitedHistory =
+        history.slice(
+            0,
+            MAX_HISTORY
+        );
+
+    localStorage.setItem(
+        HISTORY_STORAGE_KEY,
+        JSON.stringify(
+            limitedHistory
+        )
+    );
+}
+
+
+/* =====================================================
+   HISTORIAL
+===================================================== */
+
+function getHistory() {
+
+    try {
+
+        const saved =
+            localStorage.getItem(
+                HISTORY_STORAGE_KEY
+            );
+
+        if (!saved) {
+
+            return [];
+        }
+
+        const parsed =
+            JSON.parse(saved);
+
+        return Array.isArray(parsed)
+            ? parsed
+            : [];
+
+    } catch (error) {
+
+        return [];
+    }
+}
+
+
+function openHistory() {
+
+    /*
+       Recordamos desde dónde se abrió
+       para poder volver correctamente.
+    */
+
+    if (
+        !document
+            .getElementById("reportScreen")
+            .classList
+            .contains("hidden")
+    ) {
+
+        previousScreen =
+            "reportScreen";
+
+    } else {
+
+        previousScreen =
+            "startScreen";
+    }
+
+    showScreen(
+        "historyScreen"
+    );
+
+    renderHistory();
+
+    document.getElementById("headerStatus").textContent =
+        "Últimas clases";
+}
+
+
+function closeHistory() {
+
+    if (
+        previousScreen ===
+        "reportScreen"
+    ) {
+
+        showScreen(
+            "reportScreen"
+        );
+
+        document.getElementById("headerStatus").textContent =
+            "Clase finalizada y guardada";
+
+    } else {
+
+        showScreen(
+            "startScreen"
+        );
+
+        document.getElementById("headerStatus").textContent =
+            "Preparado para iniciar";
+    }
+}
+
+
+function renderHistory() {
+
+    const history =
+        getHistory();
+
+    const list =
+        document.getElementById(
+            "historyList"
+        );
+
+    list.innerHTML =
+        "";
+
+    if (
+        history.length === 0
+    ) {
+
+        list.innerHTML =
+            '<div class="empty">Todavía no hay clases guardadas.</div>';
+
+        return;
+    }
+
+    history.forEach(
+        (record, index) => {
+
+            const item =
+                document.createElement(
+                    "div"
+                );
+
+            item.className =
+                "historyItem";
+
+            const totalFaults =
+                Array.isArray(
+                    record.incidents
+                )
+                    ? record.incidents.length
+                    : 0;
+
+            item.innerHTML =
+                `<strong>${escapeHtml(record.student)}</strong>` +
+                `<div class="historyMeta">` +
+                `📅 ${record.date} · ` +
+                `${totalFaults} ${
+                    totalFaults === 1
+                        ? "fallo"
+                        : "fallos"
+                }` +
+                `</div>`;
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+            button.className =
+                "historyOpen";
+
+            button.textContent =
+                "Ver informes";
+
+            button.onclick =
+                () => openHistoryRecord(
+                    index
+                );
+
+            item.appendChild(
+                button
+            );
+
+            list.appendChild(
+                item
+            );
+        }
+    );
+}
+
+
+/* =====================================================
+   ABRIR CLASE GUARDADA
+===================================================== */
+
+function openHistoryRecord(index) {
+
+    const history =
+        getHistory();
+
+    const record =
+        history[index];
+
+    if (!record) {
+
+        return;
+    }
+
+    selectedHistoryTeacher =
+        record.teacherReport || "";
+
+    selectedHistoryStudent =
+        record.studentReport || "";
+
+    document.getElementById(
+        "historyTitle"
+    ).textContent =
+        `${record.student} · ${record.date}`;
+
+    document.getElementById(
+        "historyTeacherReport"
+    ).textContent =
+        selectedHistoryTeacher;
+
+    document.getElementById(
+        "historyStudentReport"
+    ).textContent =
+        selectedHistoryStudent;
+
+    showScreen(
+        "historyReportScreen"
+    );
+
+    document.getElementById("headerStatus").textContent =
+        "Clase guardada";
+}
+
+
+/* =====================================================
+   COPIAR INFORMES
 ===================================================== */
 
 function copyTeacherReport(button) {
@@ -1488,6 +2149,7 @@ function copyTeacherReport(button) {
     );
 }
 
+
 function copyStudentReport(button) {
 
     copyReport(
@@ -1497,6 +2159,27 @@ function copyStudentReport(button) {
     );
 }
 
+
+function copyHistoryTeacher(button) {
+
+    copyReport(
+        selectedHistoryTeacher,
+        button,
+        "📋 Copiar informe completo"
+    );
+}
+
+
+function copyHistoryStudent(button) {
+
+    copyReport(
+        selectedHistoryStudent,
+        button,
+        "👤 Copiar informe del alumno"
+    );
+}
+
+
 async function copyReport(
     text,
     button,
@@ -1504,18 +2187,16 @@ async function copyReport(
 ) {
 
     if (!text) {
-        alert("No hay ningún informe para copiar.");
+
+        alert(
+            "No hay ningún informe para copiar."
+        );
+
         return;
     }
 
-    let copied = false;
-
-    /*
-       PRIMER MÉTODO:
-       API moderna del portapapeles.
-       GitHub Pages utiliza HTTPS, por lo que normalmente
-       funcionará en Safari, Chrome, iPhone e iPad.
-    */
+    let copied =
+        false;
 
     try {
 
@@ -1524,97 +2205,108 @@ async function copyReport(
             window.isSecureContext
         ) {
 
-            await navigator.clipboard.writeText(text);
-            copied = true;
+            await navigator.clipboard.writeText(
+                text
+            );
+
+            copied =
+                true;
         }
 
     } catch (error) {
 
-        copied = false;
+        copied =
+            false;
     }
 
-    /*
-       SEGUNDO MÉTODO:
-       Compatibilidad adicional para Safari/iOS.
-    */
 
     if (!copied) {
 
         try {
 
             copied =
-                fallbackCopy(text);
+                fallbackCopy(
+                    text
+                );
 
         } catch (error) {
 
-            copied = false;
+            copied =
+                false;
         }
     }
 
+
     if (copied) {
 
-        button.textContent = "✅ Copiado";
-        button.disabled = true;
+        button.textContent =
+            "✅ Copiado";
 
-        setTimeout(() => {
+        button.disabled =
+            true;
 
-            button.textContent =
-                originalText;
+        setTimeout(
+            () => {
 
-            button.disabled = false;
+                button.textContent =
+                    originalText;
 
-        }, 1500);
+                button.disabled =
+                    false;
+
+            },
+            1500
+        );
 
     } else {
 
-        /*
-           Si iOS bloquea ambos métodos,
-           seleccionamos el informe para facilitar
-           la copia manual.
-        */
-
-        selectReportText(
-            button.id === "copyTeacherButton"
-                ? "teacherReport"
-                : "studentReport"
-        );
-
         alert(
-            "No se ha podido copiar automáticamente. El informe ha quedado seleccionado para que puedas pulsar Copiar."
+            "No se ha podido copiar automáticamente. Mantén pulsado sobre el informe para copiarlo."
         );
     }
 }
 
 
 /* =====================================================
-   COPIA COMPATIBLE SAFARI / IOS
+   COPIA IOS / SAFARI
 ===================================================== */
 
 function fallbackCopy(text) {
 
     const textarea =
-        document.createElement("textarea");
+        document.createElement(
+            "textarea"
+        );
 
-    textarea.value = text;
+    textarea.value =
+        text;
 
     textarea.setAttribute(
         "readonly",
         ""
     );
 
-    textarea.style.position = "fixed";
-    textarea.style.top = "0";
-    textarea.style.left = "0";
-    textarea.style.width = "2px";
-    textarea.style.height = "2px";
-    textarea.style.padding = "0";
-    textarea.style.border = "0";
-    textarea.style.outline = "0";
-    textarea.style.boxShadow = "none";
-    textarea.style.background = "transparent";
-    textarea.style.opacity = "0.01";
+    textarea.style.position =
+        "fixed";
 
-    document.body.appendChild(textarea);
+    textarea.style.top =
+        "0";
+
+    textarea.style.left =
+        "0";
+
+    textarea.style.width =
+        "2px";
+
+    textarea.style.height =
+        "2px";
+
+    textarea.style.opacity =
+        "0.01";
+
+    document.body.appendChild(
+        textarea
+    );
 
     textarea.focus();
 
@@ -1624,35 +2316,15 @@ function fallbackCopy(text) {
     );
 
     const successful =
-        document.execCommand("copy");
+        document.execCommand(
+            "copy"
+        );
 
-    document.body.removeChild(textarea);
+    document.body.removeChild(
+        textarea
+    );
 
     return successful;
-}
-
-
-/* =====================================================
-   SELECCIÓN MANUAL DE EMERGENCIA
-===================================================== */
-
-function selectReportText(elementId) {
-
-    const element =
-        document.getElementById(elementId);
-
-    if (!element) return;
-
-    const selection =
-        window.getSelection();
-
-    const range =
-        document.createRange();
-
-    range.selectNodeContents(element);
-
-    selection.removeAllRanges();
-    selection.addRange(range);
 }
 
 
@@ -1662,8 +2334,16 @@ function selectReportText(elementId) {
 
 function newClass() {
 
-    teacherReportText = "";
-    studentReportText = "";
+    /*
+       Aquí NO borramos el historial.
+       La clase anterior ya está protegida.
+    */
+
+    teacherReportText =
+        "";
+
+    studentReportText =
+        "";
 
     classData = {
         student: "",
@@ -1673,16 +2353,24 @@ function newClass() {
         incidents: []
     };
 
-    document.getElementById("studentName").value = "";
-    document.getElementById("initialKm").value = "";
+    document.getElementById(
+        "studentName"
+    ).value =
+        "";
 
-    document
-        .getElementById("reportScreen")
-        .classList.add("hidden");
+    document.getElementById(
+        "initialKm"
+    ).value =
+        "";
 
-    document
-        .getElementById("startScreen")
-        .classList.remove("hidden");
+    document.getElementById(
+        "startError"
+    ).textContent =
+        "";
+
+    showScreen(
+        "startScreen"
+    );
 
     document.getElementById("headerStatus").textContent =
         "Preparado para iniciar";
@@ -1690,41 +2378,78 @@ function newClass() {
 
 
 /* =====================================================
-   GUARDADO
+   GUARDADO AUTOMÁTICO CLASE ACTIVA
 ===================================================== */
 
-function saveSession() {
+function saveActiveSession() {
 
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(classData)
-    );
+    try {
+
+        localStorage.setItem(
+            ACTIVE_STORAGE_KEY,
+            JSON.stringify(
+                classData
+            )
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Error guardando la clase activa:",
+            error
+        );
+    }
 }
 
-function recoverSession() {
+
+/* =====================================================
+   RECUPERAR CLASE ACTIVA
+===================================================== */
+
+function recoverActiveSession() {
 
     const saved =
-        localStorage.getItem(STORAGE_KEY);
+        localStorage.getItem(
+            ACTIVE_STORAGE_KEY
+        );
 
-    if (!saved) return;
+    if (!saved) {
+
+        return false;
+    }
 
     try {
 
         const recovered =
-            JSON.parse(saved);
+            JSON.parse(
+                saved
+            );
 
         if (
             !recovered.student ||
             !recovered.startTime ||
             !recovered.initialKm
         ) {
-            return;
+
+            return false;
         }
 
         classData =
             recovered;
 
-        if (!classData.date) {
+        if (
+            !Array.isArray(
+                classData.incidents
+            )
+        ) {
+
+            classData.incidents =
+                [];
+        }
+
+        if (
+            !classData.date
+        ) {
 
             classData.date =
                 formatDate(
@@ -1734,42 +2459,28 @@ function recoverSession() {
                 );
         }
 
-        if (!Array.isArray(classData.incidents)) {
-            classData.incidents = [];
-        }
-
-        document
-            .getElementById("startScreen")
-            .classList.add("hidden");
-
-        document
-            .getElementById("classScreen")
-            .classList.remove("hidden");
+        showScreen(
+            "classScreen"
+        );
 
         updateActiveInfo();
         renderCategories();
         updateRecent();
-        updateTimer();
-
-        if (timerInterval) {
-            clearInterval(timerInterval);
-        }
-
-        timerInterval =
-            setInterval(
-                updateTimer,
-                1000
-            );
+        startTimer();
 
         document.getElementById("headerStatus").textContent =
-            "Clase recuperada";
+            "Clase recuperada · Guardado automático";
+
+        return true;
 
     } catch (error) {
 
         console.error(
-            "No se pudo recuperar la sesión.",
+            "No se pudo recuperar la clase:",
             error
         );
+
+        return false;
     }
 }
 
@@ -1790,7 +2501,7 @@ function escapeHtml(text) {
 
 
 /* =====================================================
-   SOLO NÚMEROS EN KILÓMETROS
+   KILÓMETROS: SOLO 6 NÚMEROS
 ===================================================== */
 
 document
@@ -1801,10 +2512,17 @@ document
 
             this.value =
                 this.value
-                    .replace(/\D/g, "")
-                    .slice(0, 6);
+                    .replace(
+                        /\D/g,
+                        ""
+                    )
+                    .slice(
+                        0,
+                        6
+                    );
         }
     );
+
 
 document
     .getElementById("finalKm")
@@ -1814,34 +2532,86 @@ document
 
             this.value =
                 this.value
-                    .replace(/\D/g, "")
-                    .slice(0, 6);
+                    .replace(
+                        /\D/g,
+                        ""
+                    )
+                    .slice(
+                        0,
+                        6
+                    );
         }
     );
 
 
 /* =====================================================
-   ACTUALIZAR CRONÓMETRO AL VOLVER A LA APP
+   SEGURIDAD AL SALIR / CAMBIAR DE APP
 ===================================================== */
+
+/*
+   Además del guardado al registrar cada fallo,
+   volvemos a guardar cuando la página pasa
+   a segundo plano.
+*/
 
 document.addEventListener(
     "visibilitychange",
     () => {
 
         if (
+            classData.startTime
+        ) {
+
+            saveActiveSession();
+        }
+
+        if (
             !document.hidden &&
             classData.startTime
         ) {
+
             updateTimer();
         }
     }
 );
 
+
+window.addEventListener(
+    "pagehide",
+    () => {
+
+        if (
+            classData.startTime
+        ) {
+
+            saveActiveSession();
+        }
+    }
+);
+
+
+window.addEventListener(
+    "beforeunload",
+    () => {
+
+        if (
+            classData.startTime
+        ) {
+
+            saveActiveSession();
+        }
+    }
+);
+
+
 window.addEventListener(
     "focus",
     () => {
 
-        if (classData.startTime) {
+        if (
+            classData.startTime
+        ) {
+
             updateTimer();
         }
     }
@@ -1849,10 +2619,18 @@ window.addEventListener(
 
 
 /* =====================================================
-   RECUPERAR CLASE AL ABRIR
+   ARRANQUE
 ===================================================== */
 
-recoverSession();
+const recovered =
+    recoverActiveSession();
+
+if (!recovered) {
+
+    showScreen(
+        "startScreen"
+    );
+}
 
 </script>
 
